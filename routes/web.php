@@ -29,10 +29,10 @@ Route::group(['prefix'=>'admin'], function () {
 
     Route::resource('jasa', App\Http\Controllers\Admin\JasaController::class);
     Route::resource('pewangi', App\Http\Controllers\Admin\PewangiController::class);
-    Route::resource('pewangi', App\Http\Controllers\Admin\PelangganController::class);
-    Route::resource('pewangi', App\Http\Controllers\Admin\PetugasController::class);
-    Route::resource('pewangi', App\Http\Controllers\Admin\TransaksiController::class);
-    Route::resource('pewangi', App\Http\Controllers\Admin\PesananController::class);
+    Route::resource('pelanggan', App\Http\Controllers\Admin\PelangganController::class);
+    Route::resource('petugas', App\Http\Controllers\Admin\PetugasController::class);
+    Route::resource('transaksi', App\Http\Controllers\Admin\TransaksiController::class);
+    Route::resource('pesanan', App\Http\Controllers\Admin\PesananController::class);
 
 });
 
