@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Pewangi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Session;
+use Illuminate\Support\Facades\Cache;
+use DataTables;
+
 
 class PewangiController extends Controller
 {
@@ -13,9 +18,20 @@ class PewangiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        echo 'pewangi';
+        if ($request->ajax()) {
+            $data = Pewangi::latest()->get();
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action',function($row){
+                $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct"><i class="fas fa-pen text-white"></i></a>';
+                $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteProduct"><i class="far fa-trash-alt text-white" data-feather="delete"></i></a>';
+                return $btn;
+            })
+            ->rawColumns(['action'])->make(true);
+        }
+        return view('admin.pewangi');
     }
 
     /**
