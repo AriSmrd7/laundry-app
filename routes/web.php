@@ -15,14 +15,32 @@ use Illuminate\Support\Facades\Redirect;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('auth.login');
+})->middleware('auth');
 
 Auth::routes();
 
 
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('adminhome');
 Route::get('/kasir', [App\Http\Controllers\KasirController::class, 'index'])->name('kasirhome');
+
+
+Route::group(['prefix'=>'admin'], function () {
+
+    Route::resource('jasa', App\Http\Controllers\Admin\JasaController::class);
+    Route::resource('pewangi', App\Http\Controllers\Admin\PewangiController::class);
+    Route::resource('pewangi', App\Http\Controllers\Admin\PelangganController::class);
+    Route::resource('pewangi', App\Http\Controllers\Admin\PetugasController::class);
+    Route::resource('pewangi', App\Http\Controllers\Admin\TransaksiController::class);
+    Route::resource('pewangi', App\Http\Controllers\Admin\PesananController::class);
+
+});
+
+Route::group(['prefix'=>'kasir'], function () {
+
+    Route::resource('order', App\Http\Controllers\Kasir\OrderController::class);
+
+});
 
 Route::get('logout', function (){
     auth()->logout();
