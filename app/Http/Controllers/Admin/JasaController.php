@@ -15,7 +15,10 @@ class JasaController extends Controller
      */
     public function index()
     {
-        return view('admin.jasa');
+        $jasa = Jasa::latest()->paginate(5);
+      
+        return view('admin.jasa.jasa',compact('jasa'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);    
     }
 
     /**
@@ -25,7 +28,7 @@ class JasaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.jasa.create');
     }
 
     /**
@@ -36,7 +39,16 @@ class JasaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_jasa' => 'required',
+            'satuan_jasa' => 'required',
+            'harga_jasa' => 'required',
+        ]);
+      
+        Jasa::create($request->all());
+       
+        return redirect()->route('jasa.index')
+                        ->with('success','Data berhasil disimpan.');    
     }
 
     /**
@@ -47,7 +59,7 @@ class JasaController extends Controller
      */
     public function show(Jasa $jasa)
     {
-        //
+        return view('admin.jasa.show',compact('jasa'));
     }
 
     /**
@@ -58,7 +70,7 @@ class JasaController extends Controller
      */
     public function edit(Jasa $jasa)
     {
-        //
+        return view('admin.jasa.edit',compact('jasa'));
     }
 
     /**
@@ -70,7 +82,15 @@ class JasaController extends Controller
      */
     public function update(Request $request, Jasa $jasa)
     {
-        //
+        $request->validate([
+            'nama_jasa' => 'required',
+            'satuan_jasa' => 'required',
+            'harga_jasa' => 'required',        ]);
+      
+        $jasa->update($request->all());
+      
+        return redirect()->route('jasa.index')
+                        ->with('success','Data berhasil diubah');
     }
 
     /**
@@ -81,6 +101,9 @@ class JasaController extends Controller
      */
     public function destroy(Jasa $jasa)
     {
-        //
+        $jasa->delete();
+       
+        return redirect()->route('jasa.index')
+                        ->with('success','Data berhasil dihapus');      
     }
 }

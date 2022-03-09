@@ -46,7 +46,8 @@ class PewangiController extends Controller
         Pewangi::create($request->all());
        
         return redirect()->route('pewangi.index')
-                        ->with('success','Data berhasil disimpan.');    }
+                        ->with('success','Data berhasil disimpan.');    
+    }
 
     /**
      * Display the specified resource.
@@ -100,5 +101,6 @@ class PewangiController extends Controller
         $pewangi->delete();
        
         return redirect()->route('pewangi.index')
-                        ->with('success','Data berhasil dihapus');    }
+                        ->with('success','Data berhasil dihapus');    
+    }
 }
