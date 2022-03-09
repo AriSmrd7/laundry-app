@@ -10,6 +10,11 @@
                     <div class="text-right mb-2">
                       <a href="{{route('pelanggan.create')}}" class="btn btn-success">Tambah Baru</a>
                     </div>
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
                     <div class="table-responsive">
                       <table class="table table-bordered">
                         <thead>
