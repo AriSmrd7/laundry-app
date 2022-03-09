@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Petugas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PetugasController extends Controller
 {
@@ -15,8 +16,16 @@ class PetugasController extends Controller
      */
     public function index()
     {
-        return view('admin.petugas');
+        $petugas = DB::table('users')
+                        ->select('users.name','users.email','users.id')
+                        ->join('role_user', 'users.id', '=', 'role_user.user_id')
+                        ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                        ->where('roles.name','=','ROLE_KASIR')
+                        ->get();
+        return view('admin.petugas.petugas',compact('petugas')) ->with('i');           
+
     }
+          
 
     /**
      * Show the form for creating a new resource.

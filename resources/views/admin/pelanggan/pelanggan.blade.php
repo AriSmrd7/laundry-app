@@ -6,25 +6,34 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="text-primary">Data Pelanggan</h4>
-                    <p class="card-description text-muted">List data kasir yang bertugas di laundry.</p>
+                    <p class="card-description text-muted">List data pelanggan laundry.</p>
                     <table class="table table-bordered">
                       <thead>
                         <tr class="table-info">
                           <th width="1%"> No </th>
-                          <th> Nama Jasa </th>
-                          <th> Satuan </th>
-                          <th> Harga </th>
+                          <th> Nama</th>
+                          <th> Telepon </th>
+                          <th> Alamat </th>
                           <th> Action </th>
                         </tr>
                       </thead>
                       <tbody>
+                      @foreach ($pelanggan as $row)
                         <tr>
-                          <td> 1 </td>
-                          <td> Molto </td>
-                          <td> Molto </td>
-                          <td> Molto </td>
-                          <td>  </td>
+                          <td>{{ ++$i }}</td>
+                          <td> {{ $row->nama }} </td>
+                          <td> {{ $row->telepon }} </td>
+                          <td> {{ $row->alamat }} </td>
+                          <td>  
+                          <form action="{{ route('pelanggan.destroy',$row->id_pelanggan) }}" method="POST">
+                              <!--a class="btn btn-primary" href="{{ route('pelanggan.edit',$row->id_pelanggan) }}">Ubah</a-->
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="btn btn-danger">Hapus</button>
+                          </form>
+                          </td>
                         </tr>
+                      @endforeach
                       </tbody>
                     </table>
                   </div>

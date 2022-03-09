@@ -13,18 +13,25 @@
                           <th width="1%"> No </th>
                           <th> Nama Kasir </th>
                           <th> Email </th>
-                          <th> No. Telepon </th>
-                          <th> Action </th>
+                          <!--th width="10%"> Action </th-->
                         </tr>
                       </thead>
+                      @foreach ($petugas as $row)
                       <tbody>
                         <tr>
-                          <td> 1 </td>
-                          <td> Molto </td>
-                          <td> Molto </td>
-                          <td> Molto </td>
-                          <td>  </td>
+                          <td>{{ ++$i }}</td>
+                          <td> {{ $row->name }} </td>
+                          <td> {{ $row->email }} </td>
+                          <!--td>
+                          <form action="{{ route('petugas.destroy',$row->id) }}" method="POST">
+                              <a class="btn btn-primary" href="{{ route('petugas.edit',$row->id) }}">Ubah</a>
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="btn btn-danger">Hapus</button>
+                          </form>
+                          </td-->
                         </tr>
+                      @endforeach
                       </tbody>
                     </table>
                   </div>
