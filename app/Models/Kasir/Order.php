@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models\Kasir;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pewangi extends Model
+class Order extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'nama_pewangi',
-    ];
 }

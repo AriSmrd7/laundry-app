@@ -33,7 +33,6 @@ Route::group(['prefix'=>'admin'], function () {
     Route::resource('petugas', App\Http\Controllers\Admin\PetugasController::class);
     Route::resource('transaksi', App\Http\Controllers\Admin\TransaksiController::class);
     Route::resource('pesanan', App\Http\Controllers\Admin\PesananController::class);
-
 });
 
 Route::group(['prefix'=>'kasir'], function () {
