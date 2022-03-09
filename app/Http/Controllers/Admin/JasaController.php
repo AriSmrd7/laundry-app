@@ -15,7 +15,7 @@ class JasaController extends Controller
      */
     public function index()
     {
-        echo 'test';
+        return view('admin.jasa');
     }
 
     /**
