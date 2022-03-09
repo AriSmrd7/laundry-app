@@ -1,11 +1,11 @@
 @extends('layouts.master')
-@section('title', 'Laundry - Ubah Data Jasa')
+@section('title', 'Laundry - Ubah Data Pelanggan')
 @section('content')
             <div class="row">
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="text-primary">Ubah Data Jasa</h4>
+                    <h4 class="text-primary">Ubah Data Pelanggan</h4>
                         <p class="card-description text-small text-muted">Update pada form di bawah ini untuk mengubah data .</p>
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -18,23 +18,21 @@
                             </div>
                         @endif
                         <div class="col-lg-6">
-                        <form class="forms-sample" method="POST" action="{{ route('jasa.update',$jasa->id_jasa) }}">
+                        <form class="forms-sample" method="POST" action="{{ route('pelanggan.update',$pelanggan->id_pelanggan) }}">
                         @csrf
                         @method('PUT')
-                          <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Jasa</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama_jasa" value="{{$jasa->nama_jasa}}">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Nama Pelanggan</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama" value="{{$pelanggan->nama}}">
                           </div>
                           <div class="form-group">
-                            <label for="exampleInputEmail2">Jenis Satuan</label>
-                            <select class="form-control" id="exampleInputEmail2" name="satuan_jasa">
-                              <option value="Kg" {{ $jasa->satuan_jasa == 'Kg' ? 'selected' : '' }}>Kg</option>
-                              <option value="Pcs" {{ $jasa->satuan_jasa == 'Pcs' ? 'selected' : '' }}>Pcs</option>
+                            <label for="exampleInputEmail2">Nomor Hp</label>
+                            <input type="text" class="form-control" id="exampleInputEmail2" name="telepon" maxlength="13" value="{{$pelanggan->telepon}}">
                             </select>
                           </div>
                           <div class="form-group">
-                            <label for="exampleInputEmail3">Harga per Satuan</label>
-                            <input type="text" class="form-control" id="exampleInputEmail3" name="harga_jasa" value="{{$jasa->harga_jasa}}">
+                            <label for="exampleInputEmail3">Alamat Lengkap</label>
+                            <textarea class="form-control" name="alamat">{{$pelanggan->alamat}}</textarea>
                           </div>
                           <button type="submit" class="btn btn-success mr-2">Simpan</button>
                           <button class="btn btn-light">Cancel</button>

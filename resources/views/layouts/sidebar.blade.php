@@ -49,19 +49,19 @@
 
     @if(Auth::User()->hasRole('ROLE_KASIR'))
     <li class="nav-item">
-      <a class="nav-link" href="index.html">
+      <a class="nav-link" href="{{url('kasir')}}">
         <i class="menu-icon typcn typcn-document-text"></i>
         <span class="menu-title">Home</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="pages/forms/basic_elements.html">
+      <a class="nav-link" href="{{url('kasir/order')}}">
         <i class="menu-icon typcn typcn-shopping-bag"></i>
         <span class="menu-title">Order Pesanan</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="pages/charts/chartjs.html">
+      <a class="nav-link" href="{{url('kasir/transaksi')}}">
         <i class="menu-icon typcn typcn-th-large-outline"></i>
         <span class="menu-title">Transaksi</span>
       </a>

@@ -15,8 +15,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $jasa = Order::latest()->paginate(5);
+      
+        return view('kasir.order.order',compact('order'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);        }
 
     /**
      * Show the form for creating a new resource.
