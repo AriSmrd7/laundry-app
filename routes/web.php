@@ -46,6 +46,7 @@ Route::group(['prefix'=>'kasir'], function () {
     Route::get('/transaksi', [App\Http\Controllers\Kasir\TransaksiController::class, 'index'])->name('transaksi.index');
     Route::get('/transaksi/bayar/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'payOrder'])->name('transaksi.bayar');
     Route::post('/transaksi/updatebayar/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'updateOrder'])->name('transaksi.updatebayar');
+    Route::resource('pelanggan', App\Http\Controllers\Kasir\PelangganKasirController::class);
 
 });
 
