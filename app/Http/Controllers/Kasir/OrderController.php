@@ -103,7 +103,7 @@ class OrderController extends Controller
         $transaksi = New TransaksiKasir();
         $transaksi->no_invoice = $request->no_invoice;
         $transaksi->id_petugas = Auth::user()->id;
-        $transaksi->total_harga = $request->total_harga;
+        $transaksi->total_trx = $request->total_harga;
         $transaksi->bayar = 0;
         $transaksi->kembalian = 0;
         $transaksi->status = 'BELUM LUNAS';

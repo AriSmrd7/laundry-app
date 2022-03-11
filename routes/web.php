@@ -42,6 +42,11 @@ Route::group(['prefix'=>'kasir'], function () {
     Route::post('/insert_order', [App\Http\Controllers\Kasir\OrderController::class, 'insertOrder'])->name('insert_order');
     Route::post('/create_invoice', [App\Http\Controllers\Kasir\OrderController::class, 'createInvoice'])->name('create_invoice');
     Route::get('/delete_order/{id}', [App\Http\Controllers\Kasir\OrderController::class, 'deleteOrder'])->name('delete_order');
+
+    Route::get('/transaksi', [App\Http\Controllers\Kasir\TransaksiController::class, 'index'])->name('transaksi.index');
+    Route::get('/transaksi/bayar/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'payOrder'])->name('transaksi.bayar');
+    Route::post('/transaksi/updatebayar/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'updateOrder'])->name('transaksi.updatebayar');
+
 });
 
 Route::get('logout', function (){

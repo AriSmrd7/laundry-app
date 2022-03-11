@@ -15,7 +15,7 @@ class TransaksiKasir extends Model
     protected $fillable = [
         'no_invoice',
         'id_petugas',
-        'total_harga',
+        'total_trx',
         'bayar',
         'kembalian',
         'status',
