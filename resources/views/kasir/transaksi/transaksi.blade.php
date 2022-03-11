@@ -36,12 +36,7 @@
                           <td> {{ $row->status }} </td>
                           <td> {{ $row->status_cucian }} </td>
                           <td>
-                            @if($row->status == 'BELUM LUNAS')  
-                            <a class="btn btn-xs btn-warning" href="{{ route('transaksi.bayar',$row->id_transaksi) }}">Bayar</a>
-                            @else
-                            <button class="btn btn-xs btn-success" disabled>Cetak</button>
-                            @endif
-                            <a class="btn btn-xs btn-info" href="">Update</a>
+                            <a class="btn btn-xs btn-success" href="">Detail</a>
                           </td>
                         </tr>
                       @endforeach

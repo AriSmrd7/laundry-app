@@ -50,4 +50,12 @@ class TransaksiController extends Controller
       
         return redirect()->route('transaksi.index');
     }
+
+    public function checkInvoice(){
+        return view('kasir.transaksi.invoice');
+    }
+
+    public function updateInvoice(Request $request,$id){
+
+    }
 }
