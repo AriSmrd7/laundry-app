@@ -1,4 +1,11 @@
 <?php return array (
+  'haruncpi/laravel-id-generator' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Haruncpi\\LaravelIdGenerator\\IdGeneratorServiceProvider',
+    ),
+  ),
   'laravel/sail' => 
   array (
     'providers' => 

@@ -5,20 +5,19 @@ namespace App\Models\Kasir;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class TransaksiKasir extends Model
 {
     use HasFactory;
 
-    protected $table = 'tb_order';
+    protected $table = 'tb_transaksi';
+    protected $primaryKey = 'id_transaksi ';
     protected $keyType = 'string';
     protected $fillable = [
-        'tgl_masuk',
-        'tgl_selesai',
-        'jml_paket',
-        'total_harga',
-        'id_pewangi',
-        'id_pelanggan',
+        'no_invoice',
         'id_petugas',
-        'status_cucian',
+        'total_harga',
+        'bayar',
+        'kembalian',
+        'status',
     ];
 }

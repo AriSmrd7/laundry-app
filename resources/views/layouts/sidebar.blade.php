@@ -57,13 +57,19 @@
     <li class="nav-item">
       <a class="nav-link" href="{{url('kasir/order')}}">
         <i class="menu-icon typcn typcn-shopping-bag"></i>
-        <span class="menu-title">Order Pesanan</span>
+        <span class="menu-title">Buat Pesanan</span>
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="{{url('kasir/transaksi')}}">
         <i class="menu-icon typcn typcn-th-large-outline"></i>
-        <span class="menu-title">Transaksi</span>
+        <span class="menu-title">List Pesanan</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{url('kasir/pelanggan')}}">
+        <i class="menu-icon typcn typcn-th-large-outline"></i>
+        <span class="menu-title">Data Pelanggan</span>
       </a>
     </li>
    @endif

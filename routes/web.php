@@ -39,6 +39,9 @@ Route::group(['prefix'=>'kasir'], function () {
 
     Route::resource('order', App\Http\Controllers\Kasir\OrderController::class);
 
+    Route::post('/insert_order', [App\Http\Controllers\Kasir\OrderController::class, 'insertOrder'])->name('insert_order');
+    Route::post('/create_invoice', [App\Http\Controllers\Kasir\OrderController::class, 'createInvoice'])->name('create_invoice');
+    Route::get('/delete_order/{id}', [App\Http\Controllers\Kasir\OrderController::class, 'deleteOrder'])->name('delete_order');
 });
 
 Route::get('logout', function (){
