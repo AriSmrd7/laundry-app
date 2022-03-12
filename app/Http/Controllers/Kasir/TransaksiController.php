@@ -30,13 +30,14 @@ class TransaksiController extends Controller
         $bayar = DB::table('tb_transaksi')
                         ->select('tb_transaksi.no_invoice','tb_transaksi.total_trx','tb_transaksi.id_transaksi')
                         ->join('tb_order', 'tb_transaksi.no_invoice', '=', 'tb_order.id')
-                        ->where('tb_transaksi.id_transaksi','=',$id)
+                        ->where('tb_transaksi.no_invoice','=',$id)
                         ->get();            
         return view('kasir.transaksi.bayar',compact('bayar'));
     }
 
     public function updateOrder(Request $request, $id_transaksi)
     {
+        $noInvoice = $request->no_invoice;
         $bayar = $request->bayar;
         $kembalian = $request->kembalian;
         $status = 'LUNAS';
@@ -48,11 +49,25 @@ class TransaksiController extends Controller
                     'status' => $status
                 ]);
       
-        return redirect()->route('transaksi.index');
+        return redirect()->route('transaksi.invoice',$noInvoice);
     }
 
-    public function checkInvoice(){
-        return view('kasir.transaksi.invoice');
+    public function checkInvoice($id){
+        $check = DB::table('tb_order')
+                        ->select('*')
+                        ->join('tb_transaksi', 'tb_order.id', '=', 'tb_transaksi.no_invoice')
+                        ->join('tb_pewangi', 'tb_order.id_pewangi', '=', 'tb_pewangi.id_pewangi')
+                        ->join('tb_pelanggan', 'tb_order.id_pelanggan', '=', 'tb_pelanggan.id_pelanggan')
+                        ->where('tb_order.id','=',$id)
+                        ->get();
+        $detail = DB::table('tb_order_detail')
+                        ->select('*')
+                        ->join('tb_order', 'tb_order_detail.no_invoice', '=', 'tb_order.id')
+                        ->join('tb_jasa', 'tb_order_detail.id_jasa', '=', 'tb_jasa.id_jasa')
+                        ->where('tb_order_detail.no_invoice','=',$id)
+                        ->get();
+
+        return view('kasir.transaksi.invoice',compact('check','detail'));    
     }
 
     public function updateInvoice(Request $request,$id){

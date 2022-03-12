@@ -17,30 +17,44 @@
               <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="text-primary">Invoice Pembayaran</h4>
+                    <h4 class="text-primary">Invoice Orderan</h4>
                     <p class="card-description text-muted">Halaman ini digunakan untuk mengubah status invoice.</p>                    
                     <div>
+                    @foreach($check as $checks)
+                    @endforeach
                       <table class="table table-bordered table100 invFormat">
                           <thead>
                             <tr>
                               <td>Nomor Invoice</td>
-                              <td colspan="4">INV-001</td>
+                              <td colspan="4" class="text-primary">{{$checks->no_invoice}}</td>
+                            </tr>
+                            <tr>
+                              <td>Nama Pelanggan</td>
+                              <td colspan="4" class="text-primary">{{$checks->nama}}</td>
+                            </tr>
+                            <tr>
+                              <td>No. Telepon</td>
+                              <td colspan="4" class="text-primary">{{$checks->telepon}}</td>
+                            </tr>
+                            <tr>
+                              <td>Alamat</td>
+                              <td colspan="4" class="text-primary">{{$checks->alamat}}</td>
                             </tr>
                             <tr>
                               <td>Tanggal Masuk</td>
-                              <td colspan="4">A</td>
+                              <td colspan="4" class="text-primary">{{$checks->tgl_masuk}}</td>
                             </tr>
                             <tr>
                               <td>Estimasi Selesai</td>
-                              <td colspan="4">A</td>
+                              <td colspan="4" class="text-primary">{{$checks->tgl_selesai}}</td>
                             </tr>
                             <tr>
                               <td>Pewangi</td>
-                              <td colspan="4">A</td>
+                              <td colspan="4" class="text-primary">{{$checks->nama_pewangi}}</td>
                             </tr>
                             <tr>
                               <td>Jumlah Paket</td>
-                              <td colspan="4">A</td>
+                              <td colspan="4" class="text-info">{{$checks->jml_paket}}</td>
                             </tr>
                             <tr class="table-info">
                               <td>Nama Paket</td>
@@ -51,36 +65,54 @@
                             </tr>
                           </thead>
                           <tbody>
+                          @foreach ($detail as $rowDetails)
                             <tr>
-                              <td>P</td>
-                              <td>X</td>
-                              <td>S</td>
-                              <td>X</td>
-                              <td>1</td>
+                              <td>{{$rowDetails->nama_jasa}}</td>
+                              <td>{{$rowDetails->jumlah}}</td>
+                              <td>{{$rowDetails->satuan}}</td>
+                              <td>{{$rowDetails->harga}}</td>
+                              <td>{{$rowDetails->subtotal}}</td>
                             </tr>
+                          @endforeach
                             <tr class="table-info">
                               <td colspan="4" class="text-right">TOTAL HARGA</td>
-                              <td>Rp1000</td>
+                              <td class="text-primary">{{$checks->total_harga}}</td>
                             </tr>
                             <tr>
                               <td>Status Cucian</td>
-                              <td colspan="4" class="text-left">Dalam Antrian</td>
+                              <td colspan="4" class="text-left text-primary">{{$checks->status_cucian}}</td>
                             </tr>
                             <tr>
                               <td>Status Pembayaran</td>
-                              <td colspan="4" class="text-left">BELUM LUNAS</td>
+                              <td colspan="4" class="text-left text-primary">{{$checks->status}}</td>
                             </tr>
+                            @if($checks->status == 'LUNAS')
                             <tr>
                               <td>Uang yang Dibayar</td>
-                              <td colspan="4" class="text-left">BELUM LUNAS</td>
+                              <td colspan="4" class="text-left text-primary">{{$checks->bayar}}</td>
                             </tr>
                             <tr>
                               <td>Kembalian</td>
-                              <td colspan="4" class="text-left">BELUM LUNAS</td>
+                              <td colspan="4" class="text-left text-primary">{{$checks->kembalian}}</td>
                             </tr>
+                            @endif
                           </tbody>
                       </table>
                     </div>
+                      <div class="row mt-5">
+                          <div class="col-md-10">
+                            <div class="form-group row">
+                              <div class="col-sm-12">
+                                <a href="{{route('transaksi.index')}}" class="btn btn-md btn-light">Kembali</a>  
+                                <a href="" class="btn btn-md btn-info">Ubah Status</a> 
+                                @if($checks->status === 'BELUM LUNAS')                             
+                                <a href="{{ route('transaksi.bayar',$checks->no_invoice) }}" class="btn btn-md btn-primary">Pembayaran</a>                
+                                @else                             
+                                <a class="btn btn-md btn-outline-success" disabled>Telah Dibayar</a>                
+                                @endif
+                              </div>
+                            </div>
+                      </div>
                   </div>
                 </div>
               </div>

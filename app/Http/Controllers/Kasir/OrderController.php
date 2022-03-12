@@ -88,8 +88,10 @@ class OrderController extends Controller
         OrderDetail::insert($allOrders);
         OrderTemp::query()->truncate();
 
+        $noInvoice = $request->no_invoice;
+
         $order = New Order();
-        $order->id = $request->no_invoice;
+        $order->id = $noInvoice;
         $order->tgl_masuk = $request->tgl_masuk;
         $order->tgl_selesai = $request->tgl_selesai;
         $order->jml_paket = $request->jml_paket;
@@ -97,11 +99,11 @@ class OrderController extends Controller
         $order->id_pewangi = $request->id_pewangi;
         $order->id_pelanggan = $request->id_pelanggan;
         $order->id_petugas = Auth::user()->id;
-        $order->status_cucian = 'Dalam Antrian';
+        $order->status_cucian = 'Diproses';
         $order->save();
 
         $transaksi = New TransaksiKasir();
-        $transaksi->no_invoice = $request->no_invoice;
+        $transaksi->no_invoice = $noInvoice;
         $transaksi->id_petugas = Auth::user()->id;
         $transaksi->total_trx = $request->total_harga;
         $transaksi->bayar = 0;
@@ -109,7 +111,7 @@ class OrderController extends Controller
         $transaksi->status = 'BELUM LUNAS';
         $transaksi->save();
 
-        return redirect()->route('order.index');
+        return redirect()->route('transaksi.invoice',$noInvoice);
 
     }
 }

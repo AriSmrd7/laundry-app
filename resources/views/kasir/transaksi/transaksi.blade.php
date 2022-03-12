@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Laundry - List Pesanani')
+@section('title', 'Laundry - Transaksi Order')
 @section('content')
             <div class="row">
               <div class="col-lg-12 grid-margin stretch-card">
@@ -36,7 +36,7 @@
                           <td> {{ $row->status }} </td>
                           <td> {{ $row->status_cucian }} </td>
                           <td>
-                            <a class="btn btn-xs btn-success" href="">Detail</a>
+                            <a class="btn btn-xs btn-success" href="transaksi/invoice/{{$row->no_invoice}}">Detail</a>
                           </td>
                         </tr>
                       @endforeach

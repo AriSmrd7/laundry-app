@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <a href="{{route('transaksi.index')}}" class="btn btn-lg btn-dark">KEMBALI</a>
+                                <a href="{{ route('transaksi.invoice',$bayars->no_invoice) }}" class="btn btn-lg btn-dark">KEMBALI</a>
                                 <button type="submit" class="btn btn-lg btn-primary">BAYAR</button>
                             </div>
                         </form>
