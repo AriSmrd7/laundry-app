@@ -23,9 +23,12 @@ class PetugasController extends Controller
     {
         $petugas = DB::table('users')
                         ->select('users.name','users.email','users.id')
+                        ->selectRaw('COUNT(tb_order.id) as total_trx')
                         ->join('role_user', 'users.id', '=', 'role_user.user_id')
                         ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                        ->join('tb_order', 'users.id', '=', 'tb_order.id_petugas')
                         ->where('roles.name','=','ROLE_KASIR')
+                        ->groupBy('users.name','users.email','users.id')
                         ->get();
         return view('admin.petugas.petugas',compact('petugas')) ->with('i');           
 

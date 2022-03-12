@@ -7,6 +7,7 @@ use App\Models\Admin\Customer;
 use App\Models\Admin\Pewangi;
 use App\Models\Kasir\Order;
 use App\Models\Admin\Jasa;
+use App\Models\Admin\Transaksi;
 
 class AdminController extends Controller
 {
@@ -21,15 +22,15 @@ class AdminController extends Controller
         $order = Order::select(['*'])
                     ->count();
 
-        $pelanggan = Customer::select(['*'])
+        $customer = Customer::select(['*'])
                     ->count();
         
         $jasa = Jasa::select(['*'])
                     ->count();
 
-        $income = Order::select('*')->sum('total_harga');
+        $income = Transaksi::select('*')->sum('bayar');
 
 
-        return view('admin.home',compact('pelanggan','order','income','jasa'));
+        return view('admin.home',compact('customer','order','income','jasa'));
     }
 }

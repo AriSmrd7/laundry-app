@@ -13,6 +13,7 @@
                           <th width="1%"> No </th>
                           <th> Nama Kasir </th>
                           <th> Email </th>
+                          <th width="15%"> Transaksi Dibuat </th>
                           <!--th width="10%"> Action </th-->
                         </tr>
                       </thead>
@@ -22,6 +23,7 @@
                           <td>{{ ++$i }}</td>
                           <td> {{ $row->name }} </td>
                           <td> {{ $row->email }} </td>
+                          <td class="text-center"> {{ $row->total_trx }} </td>
                           <!--td>
                           <form action="{{ route('petugas.destroy',$row->id) }}" method="POST">
                               <a class="btn btn-primary" href="{{ route('petugas.edit',$row->id) }}">Ubah</a>
