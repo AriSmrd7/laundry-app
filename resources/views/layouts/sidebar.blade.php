@@ -10,13 +10,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{{url('admin/pesanan')}}">
-        <i class="menu-icon typcn typcn-shopping-bag"></i>
-        <span class="menu-title">Data Pesanan</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{url('admin/transaksi')}}">
+      <a class="nav-link" href="{{url('admin/order-transaksi')}}">
         <i class="menu-icon typcn typcn-th-large-outline"></i>
         <span class="menu-title">Data Transaksi</span>
       </a>

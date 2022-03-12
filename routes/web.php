@@ -31,8 +31,9 @@ Route::group(['prefix'=>'admin'], function () {
     Route::resource('pewangi', App\Http\Controllers\Admin\PewangiController::class);
     Route::resource('pelanggan', App\Http\Controllers\Admin\PelangganController::class);
     Route::resource('petugas', App\Http\Controllers\Admin\PetugasController::class);
-    Route::resource('transaksi', App\Http\Controllers\Admin\TransaksiController::class);
-    Route::resource('pesanan', App\Http\Controllers\Admin\PesananController::class);
+    Route::resource('order-transaksi', App\Http\Controllers\Admin\TransaksiController::class);
+
+    Route::get('/orders/{id}', [App\Http\Controllers\Admin\TransaksiController::class, 'checkInvoice'])->name('orders.invoice');
 });
 
 Route::group(['prefix'=>'kasir'], function () {

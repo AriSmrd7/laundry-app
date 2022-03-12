@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransaksiController extends Controller
 {
@@ -20,7 +21,14 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        return view('admin.transaksi');
+        $transaksi = DB::table('tb_transaksi')
+                        ->select('*')
+                        ->join('tb_order', 'tb_transaksi.no_invoice', '=', 'tb_order.id')
+                        ->join('users', 'tb_transaksi.id_petugas', '=', 'users.id')
+                        ->get();        
+    
+        return view('admin.transaksi.transaksi',compact('transaksi'))
+                        ->with('i', (request()->input('page', 1) - 1) * 5);  
     }
 
     /**
@@ -87,5 +95,24 @@ class TransaksiController extends Controller
     public function destroy(Transaksi $transaksi)
     {
         //
+    }
+
+    public function checkInvoice($id){
+        $check = DB::table('tb_order')
+                        ->select('*')
+                        ->join('tb_transaksi', 'tb_order.id', '=', 'tb_transaksi.no_invoice')
+                        ->join('tb_pewangi', 'tb_order.id_pewangi', '=', 'tb_pewangi.id_pewangi')
+                        ->join('tb_pelanggan', 'tb_order.id_pelanggan', '=', 'tb_pelanggan.id_pelanggan')
+                        ->join('users', 'tb_order.id_petugas', '=', 'users.id')
+                        ->where('tb_order.id','=',$id)
+                        ->get();
+        $detail = DB::table('tb_order_detail')
+                        ->select('*')
+                        ->join('tb_order', 'tb_order_detail.no_invoice', '=', 'tb_order.id')
+                        ->join('tb_jasa', 'tb_order_detail.id_jasa', '=', 'tb_jasa.id_jasa')
+                        ->where('tb_order_detail.no_invoice','=',$id)
+                        ->get();
+
+        return view('admin.transaksi.invoice',compact('check','detail'));    
     }
 }

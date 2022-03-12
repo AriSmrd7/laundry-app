@@ -1,32 +1,52 @@
 @extends('layouts.master')
-@section('title', 'Laundry - Data Transaksi')
+@section('title', 'Laundry - Transaksi Order')
 @section('content')
             <div class="row">
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="text-primary">Data Transaksi</h4>
-                    <p class="card-description text-muted">List data kasir yang bertugas di laundry.</p>
+                    <h4 class="text-primary">List Pesanan</h4>
+                    <p class="card-description text-muted">Data pemesanan laundry.</p>
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
                     <table class="table table-bordered">
                       <thead>
                         <tr class="table-info">
                           <th width="1%"> No </th>
-                          <th> Nama Jasa </th>
-                          <th> Satuan </th>
+                          <th> No. Invoice </th>
+                          <th> Tanggal Masuk </th>
                           <th> Harga </th>
-                          <th> Action </th>
+                          <th> Total Bayar </th>
+                          <th> Status </th>
+                          <th> Cucian </th>
+                          <th> Kasir </th>
+                          <th width="10%" class=" text-center"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
+                      @foreach ($transaksi as $row)
                         <tr>
-                          <td> 1 </td>
-                          <td> Molto </td>
-                          <td> Molto </td>
-                          <td> Molto </td>
-                          <td>  </td>
+                          <td>{{ ++$i }}</td>
+                          <td> {{ $row->no_invoice }} </td>
+                          <td> {{ $row->tgl_masuk }} </td>
+                          <td> {{ $row->total_trx }} </td>
+                          <td> {{ $row->bayar }} </td>
+                          <td> {{ $row->status }} </td>
+                          <td> {{ $row->status_cucian }} </td>
+                          <td> {{ $row->name }} </td>
+                          <td>
+                            <a class="btn btn-xs btn-success" href="{{route('orders.invoice',$row->no_invoice)}}">Detail</a>
+                          </td>
                         </tr>
+                      @endforeach
                       </tbody>
                     </table>
+                    <div class="row text-center">
+                        
+                    </div>
                   </div>
                 </div>
               </div>
