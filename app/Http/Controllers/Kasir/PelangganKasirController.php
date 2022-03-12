@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class PelangganKasirController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:ROLE_KASIR');
+    }
+    
     /**
      * Display a listing of the resource.
      *

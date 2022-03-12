@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Auth;
 class TransaksiController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:ROLE_KASIR');
+    }
+    
     public function index(){
 
         $transaksi = DB::table('tb_transaksi')

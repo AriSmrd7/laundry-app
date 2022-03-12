@@ -14,6 +14,11 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:ROLE_KASIR');
+    }
     /**
      * Display a listing of the resource.
      *
