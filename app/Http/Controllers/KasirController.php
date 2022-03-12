@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\Customer;
 use App\Models\Admin\Jasa;
-use App\Models\Admin\Pelanggan;
 use App\Models\Admin\Pewangi;
 use App\Models\Kasir\Order;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +22,7 @@ class KasirController extends Controller
                     ->where('id_petugas',Auth::User()->id)
                     ->count();
 
-        $pelanggan = Pelanggan::select(['*'])
+        $pelanggan = Customer::select(['*'])
                     ->count();
         
         $jasa = Jasa::select(['*'])

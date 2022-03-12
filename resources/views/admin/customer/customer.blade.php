@@ -8,7 +8,7 @@
                     <h4 class="text-primary">Data Pelanggan</h4>
                     <p class="card-description text-muted">List data pelanggan laundry.</p>
                     <div class="text-right mb-2">
-                      <a href="{{route('pelanggan.create')}}" class="btn btn-success">Tambah Baru</a>
+                      <a href="{{route('customer.create')}}" class="btn btn-success">Tambah Baru</a>
                     </div>
                     @if ($message = Session::get('success'))
                         <div class="alert alert-success">
@@ -27,15 +27,15 @@
                           </tr>
                         </thead>
                         <tbody>
-                        @foreach ($pelanggan as $row)
+                        @foreach ($customer as $row)
                           <tr>
                             <td>{{ ++$i }}</td>
                             <td> {{ $row->nama }} </td>
                             <td> {{ $row->telepon }} </td>
                             <td> {{ $row->alamat }} </td>
                             <td>  
-                            <form action="{{ route('pelanggan.destroy',$row->id_pelanggan) }}" method="POST">
-                                <a class="btn btn-primary" href="{{ route('pelanggan.edit',$row->id_pelanggan) }}">Ubah</a>
+                            <form action="{{ route('customer.destroy',$row->id_pelanggan) }}" method="POST">
+                               <a class="btn btn-primary" href="{{ route('customer.edit',$row->id_pelanggan) }}">Ubah</a>
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Hapus</button>

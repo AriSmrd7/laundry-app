@@ -26,6 +26,7 @@ class TransaksiController extends Controller
         $transaksi = DB::table('tb_transaksi')
                         ->select('*')
                         ->join('tb_order', 'tb_transaksi.no_invoice', '=', 'tb_order.id')
+                        ->where('tb_transaksi.id_petugas',Auth::user()->id)
                         ->get();        
     
         return view('kasir.transaksi.transaksi',compact('transaksi'))
@@ -64,6 +65,7 @@ class TransaksiController extends Controller
                         ->join('tb_transaksi', 'tb_order.id', '=', 'tb_transaksi.no_invoice')
                         ->join('tb_pewangi', 'tb_order.id_pewangi', '=', 'tb_pewangi.id_pewangi')
                         ->join('tb_pelanggan', 'tb_order.id_pelanggan', '=', 'tb_pelanggan.id_pelanggan')
+                        ->join('users', 'tb_order.id_petugas', '=', 'users.id')
                         ->where('tb_order.id','=',$id)
                         ->get();
         $detail = DB::table('tb_order_detail')

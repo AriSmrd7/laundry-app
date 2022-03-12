@@ -29,7 +29,7 @@ Route::group(['prefix'=>'admin'], function () {
 
     Route::resource('jasa', App\Http\Controllers\Admin\JasaController::class);
     Route::resource('pewangi', App\Http\Controllers\Admin\PewangiController::class);
-    Route::resource('pelanggan', App\Http\Controllers\Admin\PelangganController::class);
+    Route::resource('customer', App\Http\Controllers\Admin\CustomerController::class);
     Route::resource('petugas', App\Http\Controllers\Admin\PetugasController::class);
     Route::resource('order-transaksi', App\Http\Controllers\Admin\TransaksiController::class);
 

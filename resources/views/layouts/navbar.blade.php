@@ -1,9 +1,9 @@
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-    <a class="navbar-brand brand-logo" href="index.html">
-      <img src="{{ asset('assets') }}/images/logo.svg" alt="logo" /> </a>
-    <a class="navbar-brand brand-logo-mini" href="index.html">
-      <img src="{{ asset('assets') }}/images/logo-mini.svg" alt="logo" /> </a>
+    <a class="navbar-brand brand-logo" href="">
+      <h3 class="text-light mt-2"><b>Istana Laundry</b></h3></a>
+    <a class="navbar-brand brand-logo-mini" href="">
+      <h3 class="text-light mt-2"><b>IL</b></h3> </a>
   </div>
   <div class="navbar-menu-wrapper d-flex align-items-center">
     <ul class="navbar-nav ml-auto">
@@ -16,7 +16,6 @@
             <p class="mb-1 mt-3 font-weight-semibold">{{Auth::user()->name}}</p>
             <p class="font-weight-light text-muted mb-0">{{Auth::user()->email}}</p>
           </div>
-          <a class="dropdown-item">Profile<i class="dropdown-item-icon ti-power-off"></i></a>
           <a href="{{route('logout')}}" class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
         </div>
       </li>

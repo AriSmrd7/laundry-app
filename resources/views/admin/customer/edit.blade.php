@@ -18,21 +18,21 @@
                             </div>
                         @endif
                         <div class="col-lg-6">
-                        <form class="forms-sample" method="POST" action="{{ route('pelanggan.update',$pelanggan->id_pelanggan) }}">
+                        <form class="forms-sample" method="POST" action="{{ route('customer.update',$customer->id_pelanggan) }}">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
                             <label for="exampleInputEmail1">Nama Pelanggan</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama" value="{{$pelanggan->nama}}">
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama" value="{{$customer->nama}}">
                           </div>
                           <div class="form-group">
                             <label for="exampleInputEmail2">Nomor Hp</label>
-                            <input type="text" class="form-control" id="exampleInputEmail2" name="telepon" maxlength="13" value="{{$pelanggan->telepon}}">
+                            <input type="text" class="form-control" id="exampleInputEmail2" name="telepon" maxlength="13" value="{{$customer->telepon}}">
                             </select>
                           </div>
                           <div class="form-group">
                             <label for="exampleInputEmail3">Alamat Lengkap</label>
-                            <textarea class="form-control" name="alamat">{{$pelanggan->alamat}}</textarea>
+                            <textarea class="form-control" name="alamat">{{$customer->alamat}}</textarea>
                           </div>
                           <button type="submit" class="btn btn-success mr-2">Simpan</button>
                           <button class="btn btn-light">Cancel</button>

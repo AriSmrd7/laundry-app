@@ -19,7 +19,7 @@
                         @endif
    
                         <div class="col-lg-6">
-                        <form class="forms-sample" method="POST" action="{{route('pelanggan.store')}}">
+                        <form class="forms-sample" method="POST" action="{{route('customer.store')}}">
                         @csrf
                           <div class="form-group">
                             <label for="exampleInputEmail1">Nama Pelanggan</label>

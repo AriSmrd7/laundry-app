@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Kasir;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Pelanggan;
+use App\Models\Kasir\PelangganKasir;
 use Illuminate\Http\Request;
 
 class PelangganKasirController extends Controller
@@ -22,7 +22,7 @@ class PelangganKasirController extends Controller
      */
     public function index()
     {
-        $pelanggan = Pelanggan::latest()->paginate(5);
+        $pelanggan = PelangganKasir::latest()->paginate(5);
       
         return view('kasir.pelanggan.pelanggan',compact('pelanggan'))
             ->with('i', (request()->input('page', 1) - 1) * 5);           
@@ -52,7 +52,7 @@ class PelangganKasirController extends Controller
             'alamat' => 'required',
         ]);
       
-        Pelanggan::create($request->all());
+        PelangganKasir::create($request->all());
        
         return redirect()->route('pelanggan.index')
                         ->with('success','Data berhasil disimpan.');                        
@@ -61,10 +61,10 @@ class PelangganKasirController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Admin\Pelanggan  $pelanggan
+     * @param  \App\Models\Kasir\PelangganKasir  $pelanggan
      * @return \Illuminate\Http\Response
      */
-    public function show(Pelanggan $pelanggan)
+    public function show(PelangganKasir $pelanggan)
     {
         return view('kasir.pelanggan.show',compact('pelanggan'));
     }
@@ -72,10 +72,10 @@ class PelangganKasirController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Admin\Pelanggan  $pelanggan
+     * @param  \App\Models\Kasir\PelangganKasir  $pelanggan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pelanggan $pelanggan)
+    public function edit(PelangganKasir $pelanggan)
     {
         return view('kasir.pelanggan.edit',compact('pelanggan'));
     }
@@ -84,10 +84,10 @@ class PelangganKasirController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Admin\Pelanggan  $pelanggan
+     * @param  \App\Models\Kasir\PelangganKasir  $pelanggan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pelanggan $pelanggan)
+    public function update(Request $request, PelangganKasir $pelanggan)
     {
         $request->validate([
             'nama' => 'required',
@@ -106,7 +106,7 @@ class PelangganKasirController extends Controller
      * @param  \App\Models\Admin\Pelanggan  $pelanggan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pelanggan $pelanggan)
+    public function destroy(PelangganKasir $pelanggan)
     {
         $pelanggan->delete();
        

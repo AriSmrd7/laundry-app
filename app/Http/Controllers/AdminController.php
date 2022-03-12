@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Admin\Pelanggan;
+use App\Models\Admin\Customer;
 use App\Models\Admin\Pewangi;
 use App\Models\Kasir\Order;
 use App\Models\Admin\Jasa;
@@ -21,7 +21,7 @@ class AdminController extends Controller
         $order = Order::select(['*'])
                     ->count();
 
-        $pelanggan = Pelanggan::select(['*'])
+        $pelanggan = Customer::select(['*'])
                     ->count();
         
         $jasa = Jasa::select(['*'])

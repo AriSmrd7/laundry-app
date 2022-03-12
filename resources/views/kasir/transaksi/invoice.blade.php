@@ -56,6 +56,10 @@
                               <td>Jumlah Paket</td>
                               <td colspan="4" class="text-info">{{$checks->jml_paket}}</td>
                             </tr>
+                            <tr>
+                              <td>Nama Kasir</td>
+                              <td colspan="4" class="text-info">{{$checks->name}}</td>
+                            </tr>
                             <tr class="table-info">
                               <td>Nama Paket</td>
                               <td>Jumlah</td>

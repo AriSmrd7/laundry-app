@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Pelanggan;
+use App\Models\Admin\Customer;
 use Illuminate\Http\Request;
 
-class PelangganController extends Controller
+class CustomerController extends Controller
 {
     public function __construct()
     {
@@ -20,9 +20,9 @@ class PelangganController extends Controller
      */
     public function index()
     {
-        $pelanggan = Pelanggan::latest()->paginate(5);
+        $customer = Customer::latest()->paginate(5);
       
-        return view('admin.pelanggan.pelanggan',compact('pelanggan'))
+        return view('admin.customer.customer',compact('customer'))
             ->with('i', (request()->input('page', 1) - 1) * 5);           
     }
 
@@ -33,7 +33,7 @@ class PelangganController extends Controller
      */
     public function create()
     {
-        return view('admin.pelanggan.create');
+        return view('admin.customer.create');
     }
 
     /**
@@ -50,65 +50,66 @@ class PelangganController extends Controller
             'alamat' => 'required',
         ]);
       
-        Pelanggan::create($request->all());
+        Customer::create($request->all());
        
-        return redirect()->route('pelanggan.index')
+        return redirect()->route('customer.index')
                         ->with('success','Data berhasil disimpan.');                        
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Admin\Pelanggan  $pelanggan
+     * @param  \App\Models\Admin\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Pelanggan $pelanggan)
+    public function show(Customer $customer)
     {
-        return view('admin.pelanggan.show',compact('pelanggan'));
+        return view('admin.customer.show',compact('customer'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Admin\Pelanggan  $pelanggan
+     * @param  \App\Models\Admin\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pelanggan $pelanggan)
+    public function edit(Customer $customer)
     {
-        return view('admin.pelanggan.edit',compact('pelanggan'));
+        return view('admin.customer.edit',compact('customer'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Admin\Pelanggan  $pelanggan
+     * @param  \App\Models\Admin\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pelanggan $pelanggan)
+    public function update(Request $request, Customer $customer)
     {
         $request->validate([
             'nama' => 'required',
             'telepon' => 'required',
-            'alamat' => 'required',        ]);
+            'alamat' => 'required',        
+        ]);
       
-        $pelanggan->update($request->all());
+        $customer->update($request->all());
       
-        return redirect()->route('pelanggan.index')
+        return redirect()->route('customer.index')
                         ->with('success','Data berhasil diubah');    
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Admin\Pelanggan  $pelanggan
+     * @param  \App\Models\Admin\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pelanggan $pelanggan)
+    public function destroy(Customer $customer)
     {
-        $pelanggan->delete();
+        $customer->delete();
        
-        return redirect()->route('pelanggan.index')
+        return redirect()->route('customer.index')
                         ->with('success','Data berhasil dihapus');      
     }
 }

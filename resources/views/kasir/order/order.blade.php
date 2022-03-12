@@ -143,7 +143,7 @@
                           <div class="form-group row">
                             <div class="col-sm-12">
                               <label for="tgl_masuk" class="col-form-label text-primary">Tanggal Order</label>
-                              <input type="date" name="tgl_masuk" class="form-control"/>
+                              <input type="date" name="tgl_masuk" class="form-control" required/>
                             </div>
                           </div>
                         </div>
@@ -151,7 +151,7 @@
                           <div class="form-group row">
                             <div class="col-sm-12">
                               <label for="tgl_selesai" class="col-form-label text-primary">Estimasi Selesai</label>
-                              <input type="date" name="tgl_selesai" class="form-control"/>
+                              <input type="date" name="tgl_selesai" class="form-control" required/>
                             </div>
                           </div>
                         </div>
