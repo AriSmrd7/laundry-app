@@ -50,6 +50,9 @@ Route::group(['prefix'=>'kasir'], function () {
     Route::get('/transaksi/bayar/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'payOrder'])->name('transaksi.bayar');
     Route::post('/transaksi/updatebayar/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'updateOrder'])->name('transaksi.updatebayar');
     
+    Route::get('/transaksi/status/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'getStatus'])->name('transaksi.status');
+    Route::post('/transaksi/updatestatus/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'updateStatus'])->name('transaksi.updatestatus');
+    
     Route::resource('pelanggan', App\Http\Controllers\Kasir\PelangganKasirController::class);
 
 });

@@ -104,11 +104,16 @@
                             <div class="form-group row">
                               <div class="col-sm-12">
                                 <a href="{{route('transaksi.index')}}" class="btn btn-md btn-light">Kembali</a>  
-                                <a href="" class="btn btn-md btn-info">Ubah Status</a> 
+                                @if($checks->status_cucian === 'Selesai')
+                                <a class="btn btn-md btn-outline-info text-info" disabled>Sudah Diambil</a> 
+                                @else
+                                <a href="{{ route('transaksi.status',$checks->no_invoice) }}" class="btn btn-md btn-info">Ubah Status</a> 
+                                @endif
+
                                 @if($checks->status === 'BELUM LUNAS')                             
                                 <a href="{{ route('transaksi.bayar',$checks->no_invoice) }}" class="btn btn-md btn-primary">Pembayaran</a>                
                                 @else                             
-                                <a class="btn btn-md btn-outline-success" disabled>Telah Dibayar</a>                
+                                <a class="btn btn-md btn-outline-success text-success" disabled>Pembayaran Lunas</a>                
                                 @endif
                               </div>
                             </div>

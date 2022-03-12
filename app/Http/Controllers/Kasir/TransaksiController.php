@@ -70,7 +70,26 @@ class TransaksiController extends Controller
         return view('kasir.transaksi.invoice',compact('check','detail'));    
     }
 
-    public function updateInvoice(Request $request,$id){
+    public function getStatus($id){
+        $status = DB::table('tb_order')
+                        ->select('*')
+                        ->join('tb_transaksi', 'tb_order.id', '=', 'tb_transaksi.no_invoice')
+                        ->join('tb_pewangi', 'tb_order.id_pewangi', '=', 'tb_pewangi.id_pewangi')
+                        ->join('tb_pelanggan', 'tb_order.id_pelanggan', '=', 'tb_pelanggan.id_pelanggan')
+                        ->where('tb_order.id','=',$id)
+                        ->get();    
+        return view('kasir.transaksi.status',compact('status'));
+    }
 
+    public function updateStatus(Request $request, $id){
+        $noInvoice = $request->no_invoice;
+        $status_cucian = $request->status_cucian;
+
+        Order::where('id', $id)
+                ->update([
+                    'status_cucian' => $status_cucian,
+                ]);
+      
+        return redirect()->route('transaksi.invoice',$noInvoice);
     }
 }
