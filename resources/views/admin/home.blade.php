@@ -40,8 +40,8 @@
                       <div class="col-lg-3 col-md-6 mt-md-0 mt-4">
                         <div class="d-flex">
                           <div class="wrapper">
-                            <h2 class="mb-1 font-weight-semibold">{{$pewangi}}</h2>
-                            <h5 class="mb-0 font-weight-medium text-primary">Pewangi</h5>
+                            <h2 class="mb-1 font-weight-semibold">{{$income}}</h2>
+                            <h5 class="mb-0 font-weight-medium text-primary">Pendapatan</h5>
                           </div>
                           <div class="wrapper my-auto ml-auto ml-lg-4">
                             <canvas height="50" width="100" id="stats-line-graph-3"></canvas>

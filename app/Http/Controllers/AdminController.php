@@ -27,9 +27,9 @@ class AdminController extends Controller
         $jasa = Jasa::select(['*'])
                     ->count();
 
-        $pewangi = Pewangi::select(['*'])
-                    ->count();
+        $income = Order::select('*')->sum('total_harga');
 
-        return view('admin.home',compact('pelanggan','order','pewangi','jasa'));
+
+        return view('admin.home',compact('pelanggan','order','income','jasa'));
     }
 }

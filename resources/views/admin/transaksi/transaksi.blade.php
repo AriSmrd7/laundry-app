@@ -18,7 +18,7 @@
                           <th width="1%"> No </th>
                           <th> No. Invoice </th>
                           <th> Tanggal Masuk </th>
-                          <th> Harga </th>
+                          <th> Total Harga </th>
                           <th> Total Bayar </th>
                           <th> Status </th>
                           <th> Cucian </th>
