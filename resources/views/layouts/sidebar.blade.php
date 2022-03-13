@@ -34,6 +34,12 @@
       </a>
     </li>
     <li class="nav-item">
+      <a class="nav-link" href="{{url('admin/member')}}">
+        <i class="menu-icon typcn typcn-th-large-outline"></i>
+        <span class="menu-title">Data Member</span>
+      </a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link" href="{{url('admin/petugas')}}">
         <i class="menu-icon typcn typcn-th-large-outline"></i>
         <span class="menu-title">Data Petugas</span>
@@ -64,6 +70,12 @@
       <a class="nav-link" href="{{url('kasir/pelanggan')}}">
         <i class="menu-icon typcn typcn-th-large-outline"></i>
         <span class="menu-title">Data Pelanggan</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{url('kasir/member-kasir')}}">
+        <i class="menu-icon typcn typcn-th-large-outline"></i>
+        <span class="menu-title">Data Member</span>
       </a>
     </li>
    @endif
