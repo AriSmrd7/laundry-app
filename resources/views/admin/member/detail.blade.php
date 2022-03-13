@@ -26,7 +26,16 @@
                     @foreach($membersInfo as $rowInfo)
                     @endforeach
                     <h4 class="text-primary">Detail Member</h4>
+                      <div class="row">
+                        <div class="col-md-10">
                         <p class="card-description text-small text-muted">Informasi detai member dengan ID : {{$rowInfo->id}} .</p>
+                        </div>
+                        <div clas="col-md-2 mt-2 mb-2">
+                            <a href="{{ route('members.delmember',$rowInfo->id) }}" onclick="return confirm('Yakin akan menghapus member ini dari database?')" class="btn btn-md btn-danger">
+                              <b>HAPUS MEMBER</b>
+                            </a>
+                        </div>
+                      </div>
                         @if ($message = Session::get('success'))
                         <div class="alert alert-success">
                             <p>
@@ -74,6 +83,11 @@
                             </tr>
                           </thead>
                           <tbody>
+                          @if($membersDetail->isEmpty())
+                          <tr class="table-danger">
+                            <td colspan="7" class="text-center">Maaf member ini belum berlangganan paket!</td>
+                          </tr>
+                          @else
                           @php $i = 0 @endphp
                           @foreach($membersDetail as $detail)
                             @php $i++ @endphp
@@ -83,9 +97,10 @@
                               <td>{{$detail->harga_jasa}}</td>
                               <td>{{$detail->subtotal_kg}}</td>
                               <td>{{$detail->subtotal_saldo}}</td>
-                              <td><a href="{{ route('members.delete',$detail->id) }}" class="btn btn-danger btn-xs">X</a></td>
+                              <td><a onclick="return confirm('Yakin akan menghapus paket dari member ini?')" href="{{ route('members.delete',$detail->id) }}" class="btn btn-danger btn-xs">X</a></td>
                             </tr>
                           @endforeach
+                          @endif
                           </tbody>
                         </table>
                   </div>
@@ -142,7 +157,7 @@
                             <div class="form-group row">
                               <div class="col-sm-12">
                                 <label for="subtotal" class="col-form-label text-primary">+</label>
-                                <button class="text-light form-control btn btn-info" id="add"><b>Beli Paket</b></button>
+                                <button class="text-light form-control btn btn-info" id="add"><b>BELI PAKET</b></button>
                               </div>
                             </div>
                           </div>
@@ -150,16 +165,9 @@
                       </form>
                     </div>
                   </div>
-                </div>
-            </div>
-
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
-                  <div class="card-body">
-                  
-                </div>
               </div>
             </div>
+
 @endsection
 
 @push('custom-scripts')

@@ -35,7 +35,7 @@
                           <td> {{ $row->total_saldo }} </td>
                           <td> {{ $row->total_kg }} Kg</td>
                           <td>  
-                            <a class="btn btn-xs btn-primary" href="{{route('members.detail',$row->id)}}">Detail & Deposit</a>
+                            <a class="btn btn-xs btn-primary" href="{{url('admin/member/detail/'.$row->id)}}">Detail & Deposit</a>
                           </td>
                         </tr>
                       @endforeach

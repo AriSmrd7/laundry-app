@@ -75,17 +75,34 @@ class MemberController extends Controller
     }
 
     public function updateMember(Request $request){
-        $detail = New MemberDetail();
+
         $bayarSubtotal = $request->subtotal;
         $jumlahKg = $request->jumlah;
         $memberId = $request->id_member;
+        $jasaId = $request->id_jasa;
 
-        $detail->id_member = $memberId;
-        $detail->id_jasa = $request->id_jasa;
-        $detail->subtotal_kg =  $jumlahKg;
-        $detail->subtotal_saldo =  $bayarSubtotal;
-        $detail->save();
+        $pakets = DB::select( DB::raw("SELECT * FROM tb_member_detail WHERE id_jasa = :jasaId AND id_member = :memberId"), array(
+            'jasaId' => $jasaId,
+            'memberId' => $memberId,
+        ));        
+        foreach($pakets as $rowPakets){
 
+        }
+        
+        if ($pakets){
+            MemberDetail::where('id_jasa',$jasaId)->update(array(
+                'subtotal_kg'=>$jumlahKg + $rowPakets->subtotal_kg,
+                'subtotal_saldo'=>$bayarSubtotal + $rowPakets->subtotal_saldo,
+            ));
+        }
+        else{
+            $detail = New MemberDetail();
+            $detail->id_member = $memberId;
+            $detail->id_jasa = $jasaId;
+            $detail->subtotal_kg =  $jumlahKg;
+            $detail->subtotal_saldo =  $bayarSubtotal;
+            $detail->save();
+        }
         return redirect()->back()->with('info','Paket berhasil ditambahkan');
     }
 
@@ -93,5 +110,12 @@ class MemberController extends Controller
         MemberDetail::where('id',$id)->delete();
 
         return redirect()->back()->with('info','Paket berhasil dihapus');
+    }
+
+    public function delMember($id){
+        Member::where('id',$id)->delete();
+        MemberDetail::where('id_member',$id)->delete();
+
+        return redirect()->route('members.index');
     }
 }
