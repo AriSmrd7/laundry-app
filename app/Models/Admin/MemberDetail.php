@@ -17,4 +17,5 @@ class MemberDetail extends Model
         'id_jasa',
         'subtotal_kg',
         'subtotal_saldo',
-    ];}
+    ];
+}
