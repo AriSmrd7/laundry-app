@@ -31,8 +31,8 @@
                         <p class="card-description text-small text-muted">Informasi detai member dengan ID : {{$rowInfo->id}} .</p>
                         </div>
                         <div clas="col-md-2 mt-2 mb-2">
-                            <a href="{{ route('members.delmember',$rowInfo->id) }}" onclick="return confirm('Yakin akan menghapus member ini dari database?')" class="btn btn-md btn-danger">
-                              <b>HAPUS MEMBER</b>
+                            <a href="{{ route('members.delmember',$rowInfo->id) }}" onclick="return confirm('Yakin akan menghapus seluruh data member ini dari database?')" class="btn btn-md btn-outline-danger">
+                              HAPUS MEMBER
                             </a>
                         </div>
                       </div>

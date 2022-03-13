@@ -27,6 +27,12 @@
                         </tr>
                       </thead>
                       <tbody>
+                      @if($members->isEmpty())
+                          <tr class="table-danger">
+                            <td colspan="7" class="text-center">Maaf belum ada data member. Silahkan klik Tambah Baru untuk mendaftarkan member.</td>
+                          </tr>
+                      @else
+                      @php $i = 0 @endphp
                       @foreach ($members as $row)
                         <tr>
                           <td>{{ ++$i }}</td>
@@ -39,6 +45,7 @@
                           </td>
                         </tr>
                       @endforeach
+                      @endif
                       </tbody>
                     </table>
                   </div>
