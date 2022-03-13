@@ -34,6 +34,14 @@ Route::group(['prefix'=>'admin'], function () {
     Route::resource('order-transaksi', App\Http\Controllers\Admin\TransaksiController::class);
 
     Route::get('/orders/{id}', [App\Http\Controllers\Admin\TransaksiController::class, 'checkInvoice'])->name('orders.invoice');
+
+    Route::get('/member', [App\Http\Controllers\Admin\MemberController::class, 'index'])->name('members.index');
+    Route::get('/member/create', [App\Http\Controllers\Admin\MemberController::class, 'addMember'])->name('members.create');
+    Route::post('/member/store', [App\Http\Controllers\Admin\MemberController::class, 'storeMember'])->name('members.store');
+    Route::get('/member/detail/{id}', [App\Http\Controllers\Admin\MemberController::class, 'detailMember'])->name('members.detail');
+    Route::post('/member/detail/{id}/update', [App\Http\Controllers\Admin\MemberController::class, 'updateMember'])->name('members.update');
+    Route::get('/member/detail/detele/paket/{id}', [App\Http\Controllers\Admin\MemberController::class, 'delPaket'])->name('members.delete');
+
 });
 
 Route::group(['prefix'=>'kasir'], function () {

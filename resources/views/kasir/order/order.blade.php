@@ -11,7 +11,7 @@
                     <h4 class="text-primary">Buat Order Baru</h4>
                     <p class="card-description text-muted">Input order baru.</p>                    
                     <form action="{{route('insert_order')}}" method="POST">
-                    @csrf
+                      @csrf
                       <div class="row">
                         <div class="col-md-4">
                           <div class="form-group row">

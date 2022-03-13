@@ -14,6 +14,7 @@ class MemberDetail extends Model
     public $incrementing = FALSE;
     public $keyType = 'string';
     public $fillable = [
+        'id_member',
         'id_jasa',
         'subtotal_kg',
         'subtotal_saldo',

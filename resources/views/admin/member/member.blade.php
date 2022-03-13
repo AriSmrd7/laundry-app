@@ -1,14 +1,14 @@
 @extends('layouts.master')
-@section('title', 'Laundry - Data Pewangi')
+@section('title', 'Laundry - Data Member')
 @section('content')
             <div class="row">
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="text-primary">Data Pewangi</h4>
-                    <p class="card-description text-muted">Admin dapat mengelola data pewangi yang digunakan pada laundry.</p>
+                    <h4 class="text-primary">Data Member</h4>
+                    <p class="card-description text-muted">Data pelanggan yang sudah menjadi memberi di laundry</p>
                     <div class="text-right mb-2">
-                      <a href="{{route('pewangi.create')}}" class="btn btn-success">Tambah Baru</a>
+                      <a href="{{route('members.create')}}" class="btn btn-success">Tambah Baru</a>
                     </div>
                     @if ($message = Session::get('success'))
                         <div class="alert alert-success">
@@ -19,30 +19,28 @@
                       <thead>
                         <tr class="table-info">
                           <th width="1%"> No </th>
-                          <th> Nama Pewangi </th>
+                          <th> Nama Pelanggan </th>
+                          <th> Paket Aktif</th>
+                          <th> Total Saldo</th>
+                          <th> Jumlah</th>
                           <th width="10%" class=" text-center"> Action </th>
                         </tr>
                       </thead>
                       <tbody>
-                      @foreach ($pewangi as $row)
+                      @foreach ($members as $row)
                         <tr>
                           <td>{{ ++$i }}</td>
-                          <td> {{ $row->nama_pewangi }} </td>
+                          <td> {{ $row->nama }} </td>
+                          <td> {{ $row->total_paket }} </td>
+                          <td> {{ $row->total_saldo }} </td>
+                          <td> {{ $row->total_kg }} Kg</td>
                           <td>  
-                          <form action="{{ route('pewangi.destroy',$row->id_pewangi) }}" method="POST">
-                              <a class="btn btn-primary" href="{{ route('pewangi.edit',$row->id_pewangi) }}">Ubah</a>
-                              @csrf
-                              @method('DELETE')
-                              <button type="submit" class="btn btn-danger">Hapus</button>
-                          </form>
+                            <a class="btn btn-xs btn-primary" href="{{route('members.detail',$row->id)}}">Detail & Deposit</a>
                           </td>
                         </tr>
                       @endforeach
                       </tbody>
                     </table>
-                    <div class="row text-center">
-                        {!! $pewangi->links() !!}
-                    </div>
                   </div>
                 </div>
               </div>
