@@ -99,6 +99,8 @@ class OrderController extends Controller
         $order->id = $noInvoice;
         $order->tgl_masuk = $request->tgl_masuk;
         $order->tgl_selesai = $request->tgl_selesai;
+        $order->jam_masuk = $request->jam_masuk;
+        $order->jam_selesai = $request->jam_selesai;
         $order->jml_paket = $request->jml_paket;
         $order->total_harga = $request->total_harga;
         $order->id_pewangi = $request->id_pewangi;

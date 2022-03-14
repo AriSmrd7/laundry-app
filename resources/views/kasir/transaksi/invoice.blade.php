@@ -26,44 +26,43 @@
                           <thead>
                             <tr>
                               <td>Nomor Invoice</td>
-                              <td colspan="4" class="text-primary">{{$checks->no_invoice}}</td>
+                              <td colspan="3" class="text-primary">{{$checks->no_invoice}}</td>
                             </tr>
                             <tr>
                               <td>Nama Pelanggan</td>
-                              <td colspan="4" class="text-primary">{{$checks->nama}}</td>
+                              <td colspan="3" class="text-primary">{{$checks->nama}}</td>
                             </tr>
                             <tr>
                               <td>No. Telepon</td>
-                              <td colspan="4" class="text-primary">{{$checks->telepon}}</td>
+                              <td colspan="3" class="text-primary">{{$checks->telepon}}</td>
                             </tr>
                             <tr>
                               <td>Alamat</td>
-                              <td colspan="4" class="text-primary">{{$checks->alamat}}</td>
+                              <td colspan="3" class="text-primary">{{$checks->alamat}}</td>
                             </tr>
                             <tr>
                               <td>Tanggal Masuk</td>
-                              <td colspan="4" class="text-primary">{{$checks->tgl_masuk}}</td>
+                              <td colspan="3" class="text-primary">{{$checks->tgl_masuk}}</td>
                             </tr>
                             <tr>
                               <td>Estimasi Selesai</td>
-                              <td colspan="4" class="text-primary">{{$checks->tgl_selesai}}</td>
+                              <td colspan="3" class="text-primary">{{$checks->tgl_selesai}}</td>
                             </tr>
                             <tr>
                               <td>Pewangi</td>
-                              <td colspan="4" class="text-primary">{{$checks->nama_pewangi}}</td>
+                              <td colspan="3" class="text-primary">{{$checks->nama_pewangi}}</td>
                             </tr>
                             <tr>
                               <td>Jumlah Paket</td>
-                              <td colspan="4" class="text-info">{{$checks->jml_paket}}</td>
+                              <td colspan="3" class="text-info">{{$checks->jml_paket}}</td>
                             </tr>
                             <tr>
                               <td>Nama Kasir</td>
-                              <td colspan="4" class="text-info">{{$checks->name}}</td>
+                              <td colspan="3" class="text-info">{{$checks->name}}</td>
                             </tr>
                             <tr class="table-info">
                               <td>Nama Paket</td>
                               <td>Jumlah</td>
-                              <td>Satuan</td>
                               <td>Harga/Paket</th>
                               <td>Subtotal</td>
                             </tr>
@@ -72,32 +71,31 @@
                           @foreach ($detail as $rowDetails)
                             <tr>
                               <td>{{$rowDetails->nama_jasa}}</td>
-                              <td>{{$rowDetails->jumlah}}</td>
-                              <td>{{$rowDetails->satuan}}</td>
+                              <td>{{$rowDetails->jumlah}} {{$rowDetails->satuan}}</td>
                               <td>{{$rowDetails->harga}}</td>
                               <td>{{$rowDetails->subtotal}}</td>
                             </tr>
                           @endforeach
                             <tr class="table-info">
-                              <td colspan="4" class="text-right">TOTAL HARGA</td>
+                              <td colspan="3" class="text-right">TOTAL HARGA</td>
                               <td class="text-primary">{{$checks->total_harga}}</td>
                             </tr>
                             <tr>
                               <td>Status Cucian</td>
-                              <td colspan="4" class="text-left text-primary">{{$checks->status_cucian}}</td>
+                              <td colspan="3" class="text-left text-primary">{{$checks->status_cucian}}</td>
                             </tr>
                             <tr>
                               <td>Status Pembayaran</td>
-                              <td colspan="4" class="text-left text-primary">{{$checks->status}}</td>
+                              <td colspan="3" class="text-left text-primary">{{$checks->status}}</td>
                             </tr>
                             @if($checks->status == 'LUNAS')
                             <tr>
                               <td>Uang yang Dibayar</td>
-                              <td colspan="4" class="text-left text-primary">{{$checks->bayar}}</td>
+                              <td colspan="3" class="text-left text-primary">{{$checks->bayar}}</td>
                             </tr>
                             <tr>
                               <td>Kembalian</td>
-                              <td colspan="4" class="text-left text-primary">{{$checks->kembalian}}</td>
+                              <td colspan="3" class="text-left text-primary">{{$checks->kembalian}}</td>
                             </tr>
                             @endif
                           </tbody>
