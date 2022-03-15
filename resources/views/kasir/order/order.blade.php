@@ -44,11 +44,46 @@
                               </div>
                             </div>
                           </div>
+                        </div>   
+                        <!-- check member -->
+                        <div class="row col-md-12" id="notMember" style="display: none;">
+                          <div class="col-sm-12">
+                            <div class="alert alert-info">
+                              <strong class="text-center">Bukan member laundry</strong>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row mb-2" id="memberInfo" style="display:flexbox">
+                          <div class="col-md-2">
+                            <div class="form-group row">
+                              <div class="col-sm-12">
+                                <label for="id_pelanggan" class="col-form-label text-primary">ID Member</label>
+                                <input type="text" name="id_member" id="id_member" class="form-control" value="" readonly/>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group row">
+                              <div class="col-sm-12">
+                                <label for="id_pelanggan" class="col-form-label text-primary">Total Sisa (Kg)</label>
+                                <input type="text" name="total_kg" id="sisa" class="form-control" value="" readonly/>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group row">
+                              <div class="col-sm-12">
+                                <label for="id_pelanggan" class="col-form-label text-primary">Saldo</label>
+                                <input type="text" name="total_saldo" id="saldo" class="form-control" value="" readonly/>
+                              </div>
+                            </div>
+                          </div>
                         </div>      
+                        <!-- end check member -->
                       <div class="row mt-0">
                         <div class="col-md-2">
                           <div class="form-group row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-11">
                               <label for="pewangi" class="col-form-label text-primary">Pewangi</label>
                               <select name="id_pewangi" class="form-control js-example-basic-single" required>
                                 <option><i>--Pilih--</i></option>
@@ -90,24 +125,20 @@
                               <input type="time" name="jam_selesai" class="form-control" id="jam_selesai" required/>
                             </div>
                           </div>
-                        </div>
+                        </div>    
                       </div>  
-                       <div class="row mt-3">
-                          <div class="col-md-12">
-                            <div class="form-group row">
-                              <div class="col-sm-2">
-                                <button name="resetFirst" id="resetFirst"  type="reset" class="btn btn-md btn-block btn-danger">
-                                  <strong>RESET</strong>
-                                </button>
-                              </div>
-                              <div class="col-sm-2">
-                                <button name="confirmFirst" id="confirmFirst" class="btn btn-md btn-block btn-primary">
-                                  <strong>KONFIRMASI</strong>
-                                </button>
-                              </div>
+                      <div class="row mt-2">
+                        <div class="col-md-12">
+                          <div class="form-group row">
+                            <div class="col-sm-2">
+                              <a class="btn btn-md btn-block btn-light" id="btnReset"><strong>RESET</strong></a>
+                            </div>
+                            <div class="col-sm-2">
+                              <a class="btn btn-md btn-block text-light btn-primary" id="btnKonfirmasi"><strong>CHECK</strong></a>
                             </div>
                           </div>
-                      </div>     
+                        </div>  
+                      </div>  
                       <hr style="height:1px;border-width:0;color:gray;background-color:dodgerblue">
                   <!--cart-->
                     <div class="table-responsive mt-2" id="cart_table">
@@ -248,6 +279,13 @@
   $('#jumlah').on('input', function() {
     this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
   });
+
+  $('#id_pelanggan').on('change',function(){
+    var telepon = $(this).children('option:selected').data('telepon');
+    var alamat = $(this).children('option:selected').data('alamat');
+    $('#telepon').val(telepon);
+    $('#alamat').val(alamat);
+  });
 </script>
 
 <script>
@@ -263,17 +301,53 @@
       $('#subtotal').val(totals);    
     });
   });
+  
+  $(document).ready(function() {
+      $('#btnReset').on('click', function() {
+        $("#id_pelanggan option").prop("selected", false).trigger( "change");
+        $("#notMember").hide();
+        $("#memberInfo").show();
+        $(this).prop('disabled', true);
+        $('#id_pelanggan').removeAttr('disabled');
+        $('#id_member').val('');    
+        $('#saldo').val('');    
+        $('#sisa').val('');
+      });
 
-</script>
+      $('#btnKonfirmasi').on('click', function() {
+        $(this).prop('disabled', true);
+        $('#id_pelanggan').attr('disabled', 'disabled');  
 
-<script>
-  $('#id_pelanggan').on('change',function(){
-    var telepon = $(this).children('option:selected').data('telepon');
-    var alamat = $(this).children('option:selected').data('alamat');
-    $('#telepon').val(telepon);
-    $('#alamat').val(alamat);
+        var id = $('#id_pelanggan').val();
+        var urlData = "/kasir/check_member/"+id;
+        
+        $.ajax({
+          type:"GET",
+          url: urlData,
+          dataType:"JSON",
+          success : function(response) {
+              if (response && response.length > 0) {  
+                var len = response.length;
+                for(var i=0; i<len; i++){     
+                  console.log(response[i]);
+                  var a = response[i].id;
+                  var b = response[i].total_saldo;
+                  var c = response[i].total_kg;                  
+                  $('#id_member').val(a);    
+                  $('#saldo').val(b);    
+                  $('#sisa').val(c);
+                }
+              }
+              else{
+                $("#notMember").show();
+                $("#memberInfo").hide();
+              }
+          }
+        }); 
+
+      });
   });
-</script>
 
+</script>
 
 @endpush

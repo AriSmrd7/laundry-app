@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Kasir;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Member;
 use App\Models\Kasir\Order;
 use App\Models\Kasir\OrderDetail;
 use App\Models\Kasir\OrderTemp;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Illuminate\Support\Facades\Response;
 
 class OrderController extends Controller
 {
@@ -120,5 +122,12 @@ class OrderController extends Controller
 
         return redirect()->route('transaksi.invoice',$noInvoice);
 
+    }
+
+    public function checkMember($id) {
+        $member = Member::select( 'id', 'id_pelanggan','total_saldo','total_kg')
+                        ->where('id_pelanggan',$id)
+                        ->get();  
+        return Response::json($member);
     }
 }

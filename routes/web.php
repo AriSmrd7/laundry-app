@@ -49,6 +49,8 @@ Route::group(['prefix'=>'kasir'], function () {
 
     Route::resource('order', App\Http\Controllers\Kasir\OrderController::class);
 
+    Route::get('/check_member/{id}', [App\Http\Controllers\Kasir\OrderController::class, 'checkMember'])->name('checkMember');
+
     Route::post('/insert_order', [App\Http\Controllers\Kasir\OrderController::class, 'insertOrder'])->name('insert_order');
     Route::post('/create_invoice', [App\Http\Controllers\Kasir\OrderController::class, 'createInvoice'])->name('create_invoice');
     Route::get('/delete_order/{id}', [App\Http\Controllers\Kasir\OrderController::class, 'deleteOrder'])->name('delete_order');
@@ -64,6 +66,7 @@ Route::group(['prefix'=>'kasir'], function () {
     Route::post('/transaksi/updatestatus/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'updateStatus'])->name('transaksi.updatestatus');
     
     Route::resource('pelanggan', App\Http\Controllers\Kasir\PelangganKasirController::class);
+
 
 });
 
