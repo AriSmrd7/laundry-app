@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Response;
+use Yajra\DataTables\DataTables;
 
 class OrderController extends Controller
 {
@@ -46,8 +47,7 @@ class OrderController extends Controller
                         ->selectRaw('SUM(subtotal) as totalharga')
                         ->selectRaw('COUNT(id_jasa) as totalpaket')
                         ->get('SUM(subtotal) as totalharga');  
-        
-        
+                   
         $prefix = 'INV-';
         $noinvoice = IdGenerator::generate(['table' => 'tb_order', 'length' => 9, 'prefix' =>$prefix]);
              
@@ -90,6 +90,9 @@ class OrderController extends Controller
         $ordertemp = DB::table('tb_order_temp')
                     ->select('*')
                     ->get();
+        
+        $jmlPaket = DB::table('tb_order_temp')->count('id_jasa');
+        $totalHarga = DB::table('tb_order_temp')->sum('subtotal');
 
         foreach($ordertemp as $listOrder){
             $allOrders[] =[
@@ -113,8 +116,8 @@ class OrderController extends Controller
         $order->tgl_selesai = $request->tgl_selesai;
         $order->jam_masuk = $request->jam_masuk;
         $order->jam_selesai = $request->jam_selesai;
-        $order->jml_paket = $request->jml_paket;
-        $order->total_harga = $request->total_harga;
+        $order->jml_paket = $jmlPaket;
+        $order->total_harga = $totalHarga;
         $order->id_pewangi = $request->id_pewangi;
         $order->id_pelanggan = $request->id_pelanggan;
         $order->id_petugas = Auth::user()->id;
@@ -124,7 +127,7 @@ class OrderController extends Controller
         $transaksi = New TransaksiKasir();
         $transaksi->no_invoice = $noInvoice;
         $transaksi->id_petugas = Auth::user()->id;
-        $transaksi->total_trx = $request->total_harga;
+        $transaksi->total_trx = $totalHarga;
         $transaksi->bayar = 0;
         $transaksi->kembalian = 0;
         $transaksi->status = 'BELUM LUNAS';
@@ -139,5 +142,18 @@ class OrderController extends Controller
                         ->where('id_pelanggan',$id)
                         ->get();  
         return Response::json($member);
+    }
+
+    public function getOrderData(Request $request){
+        if ($request->ajax()) {
+            $data = OrderTemp::select('id_temp','nama_jasa','jumlah','harga','subtotal')->get();
+            return DataTables::of($data)->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn = "<button data-id='{$row->id_temp}' class='btn btn-danger btn-xs' id='btnDelete'>X</button>";
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 }

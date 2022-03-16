@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\Kasir\OrderController;
+use App\Models\Kasir\OrderTemp;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,6 +72,8 @@ Route::group(['prefix'=>'kasir'], function () {
     
     Route::resource('pelanggan', App\Http\Controllers\Kasir\PelangganKasirController::class);
 
+
+    Route::get('/get-order',[App\Http\Controllers\Kasir\OrderController::class,'getOrderData'])->name('get_order_data');
 
 });
 

@@ -24,6 +24,8 @@
     @stack('style')
     <link rel="shortcut icon" href="{{ asset('assets') }}/images/favicon.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.css" />
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
   </head>
   <body>
     <div class="container-scroller">
@@ -54,6 +56,9 @@
 
     <script src="{{ asset('assets') }}/vendors/js/vendor.bundle.base.js"></script>
     <script src="{{ asset('assets') }}/vendors/js/vendor.bundle.addons.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
     <!-- endinject -->
     <!-- Plugin js for this page-->
     <!-- End plugin js for this page-->

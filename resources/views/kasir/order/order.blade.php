@@ -86,7 +86,7 @@
                             <div class="col-sm-11">
                               <label for="pewangi" class="col-form-label text-primary">Pewangi</label>
                               <select name="id_pewangi" class="form-control js-example-basic-single" required>
-                                <option><i>--Pilih--</i></option>
+                                <option value="0"><i>--Pilih--</i></option>
                                 @foreach($pewangi as $pewangis)
                                 <option value="{{$pewangis->id_pewangi}}">{{$pewangis->nama_pewangi}}</option>
                                 @endforeach
@@ -127,57 +127,26 @@
                           </div>
                         </div>    
                       </div>  
-                      <div class="row mt-2">
+                      <div class="row mt-4">
                         <div class="col-md-12">
                           <div class="form-group row">
                             <div class="col-sm-2">
                               <a class="btn btn-md btn-block btn-light" id="btnReset"><strong>RESET</strong></a>
                             </div>
-                            <div class="col-sm-2">
-                              <a class="btn btn-md btn-block text-light btn-primary" type="button" id="btnKonfirmasi"><strong>CHECK</strong></a>
+                            <div class="col-sm-3">
+                              <a class="btn btn-lg btn-block text-light btn-primary" type="button" id="btnKonfirmasi">
+                                <strong>CHECK</strong>
+                              </a>
                             </div>
-                          </div>
-                        </div>  
+                            <input type="hidden" name="no_invoice" class="form-control" id="no_invoice" value="{{$noinvoice}}"/>
+                            <div class="col-sm-7">
+                                  <button type="submit" class="btn btn-block btn-lg btn-success" id="btn-finish">
+                                    <strong>SELESAIKAN ORDER</strong>
+                                  </button>
+                            </div>
                       </div>  
                       <hr style="height:1px;border-width:0;color:gray;background-color:dodgerblue">
-                  <!--cart-->
-                    <div class="table-responsive mt-2" id="cart_table">
-                      <h4 class="text-primary">Keranjang Order</h4>
-                      <p class="card-description text-muted">Detail order cucian.</p>  
-                        <table class="table table-hover" id="tableCart">
-                          <thead>
-                            <tr>
-                              <th>NOMOR INVOICE :</th>
-                              <th class="text-left text-primary">
-                                {{$noinvoice}}
-                              <input type="hidden" value="{{$noinvoice}}" name="no_invoice" class="form-control" readonly/>
-                              </th>
-                              <th colspan="4">
-                                &nbsp;
-                              </th>
-                            </tr>
-                            <tr class="table-info">
-                              <th>Paket Cucian</th>
-                              <th>Jumlah</th>
-                              <th>Harga/Kg</th>
-                              <th>Subtotal</th>
-                              <th width="5%">Opsi</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          </tbody>
-                        </table>
-                   </div>
-                    <div class="col-md-12 mt-4"">
-                      <div class="row">
-                            <button type="submit" class="btn btn-block btn-lg btn-success" id="btn-finish">
-                              <strong>SELESAIKAN ORDER</strong>
-                            </button>
-                          </div>
-                      </div>
                     </form>
-                  </div>
-                  <!--end cart-->
                 </div>
               </div>
 
@@ -223,8 +192,7 @@
                             <div class="col-sm-12">
                               <label for="harga" class="col-form-label text-primary">Harga/Kg</label>
                               <input type="text" name="harga" class="form-control" id="harga" readonly />
-                              <input type="hidden" name="no_invoice" class="form-control" id="no_invoice" value="{{$noinvoice}}"/>
-                              <input type="text" name="id_pelanggan" class="form-control" id="idpel" value=""/>
+                              <input type="hidden" name="id_pelanggan" class="form-control" id="idpel" value=""/>
                             </div>
                           </div>
                         </div>
@@ -250,6 +218,44 @@
                 </div>
               </div>
 
+              <!--cart-->
+              <div class="row col-md-12">
+                <div class="table-responsive mt-2" id="cart_table">
+                      <h4 class="text-primary">Keranjang Order</h4>
+                      <p class="card-description text-muted">Detail order cucian.</p>  
+                        <table class="table table-hover" id="tableCart">
+                          <thead>
+                            <tr>
+                              <th>NOMOR INVOICE :</th>
+                              <th class="text-left text-primary">
+                                {{$noinvoice}}
+                              <input type="hidden" value="{{$noinvoice}}" name="no_invoice" class="form-control" readonly/>
+                              </th>
+                              <th colspan="4">
+                                &nbsp;
+                              </th>
+                            </tr>
+                            <tr class="table-info">
+                              <th>Paket Cucian</th>
+                              <th>Jumlah</th>
+                              <th>Harga/Kg</th>
+                              <th>Subtotal</th>
+                              <th width="5%">Opsi</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                          </tbody>
+                          <tfoot>
+                          <tr>
+                              <th colspan="2">Total Bayar</th>
+                              <th><input type="text" value="" class="form-control" id="total_harga" readonly/></th>
+                              <th><input type="text" value="" class="form-control" id="jml_paket" readonly/></th>
+                          </tr>
+                          </tfoot>
+                        </table>
+                    </div>
+                  </div>
             </div>
 @endsection
 
@@ -340,7 +346,6 @@
 <script>
   $('#addOrder').on('submit',function(e){
         e.preventDefault();
-
         var nama_jasa = $("#id_jasa :selected").text();
         let no_invoice = $('#no_invoice').val();
         let id_jasa = $('#id_jasa').val();
@@ -368,24 +373,12 @@
           success:function(response){
             if (response) {
               successAdd();
+              addRowTable();
 
               $("#id_jasa option").prop("selected", false).trigger( "change");
               $("#jumlah").val('');
               $("#harga").val('');
               $("#subtotal").val('');
-
-              $.each(response, function(index, item) {
-                  var rowData = `
-                      <tr>
-                        <td>${item.nama_jasa}</td>
-                        <td>${item.jumlah}</td>
-                        <td>${item.harga}</td>
-                        <td>${item.subtotal}</td>
-                      </tr>
-                  `;
-
-                  $('#tableCart > tbody').append(rowData);
-              });
 
             }
           },
@@ -413,5 +406,67 @@
               confirmButtonColor: '#3085d6'
             })  
         }
+
+        function addRowTable(){
+          var table = $('#tableCart').DataTable({
+              processing: true,
+              serverSide: true,
+              paging: false,
+              info: false,
+              ordering: false,
+              searching: false,
+              stateSave: true,
+              "bDestroy": true,
+              ajax: "/kasir/get-order",
+              columns: [
+                  {data: 'nama_jasa', name: 'nama_jasa'},
+                  {data: 'jumlah', name: 'jumlah'},
+                  {data: 'harga', name: 'harga'},
+                  {data: 'subtotal', name: 'subtotal'},
+                  {data: 'action', name: 'action', orderable: false, searchable: false},
+              ]
+          });
+        }
+
+</script>
+
+<script type="text/javascript">
+  $("#btnDelete").on('click',function(e) {
+      e.preventDefault();
+
+      var id = $(this).data("id");
+      var token = $("meta[name='csrf-token']").attr("content");
+      var parent = $(this).parent();
+
+      swal({
+            title: "Wait..!",
+            text: "Yakin akan menghapus orderan ini dari keranjang?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+           }).then((willDelete) => {
+      if (willDelete) {
+          $.ajax({
+              url: "delete_party/"+id,
+              type: 'DELETE',
+              data: {
+                  "id_temp": id,
+                  "_token": token,
+              },
+              success: function (){
+                    parent.slideUp(300, function () {
+                          parent.closest("tr").remove();
+                      });
+              },
+              error: function() {
+                  alert('error');
+              },
+          });
+        } else {
+              swal("Gagal");
+        }
+      });
+
+  });
 </script>
 @endpush
