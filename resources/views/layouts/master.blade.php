@@ -23,6 +23,7 @@
     <!-- End Layout styles -->
     @stack('style')
     <link rel="shortcut icon" href="{{ asset('assets') }}/images/favicon.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.css" />
   </head>
   <body>
     <div class="container-scroller">
@@ -60,6 +61,7 @@
     <script src="{{ asset('assets') }}/js/shared/off-canvas.js"></script>
     <script src="{{ asset('assets') }}/js/shared/misc.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- endinject -->
     @stack('custom-scripts')
     <!-- Custom js for this page-->

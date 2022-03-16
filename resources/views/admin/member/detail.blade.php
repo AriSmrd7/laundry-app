@@ -142,6 +142,7 @@
                                 <label for="harga" class="col-form-label text-primary">Harga/Kg</label>
                                 <input type="text" name="harga" class="form-control" id="harga" readonly />
                                 <input type="hidden" name="id_member" value="{{$rowsId->id}}" />
+                                <input type="hidden" name="id_pelanggan" value="{{$rowsId->id_pelanggan}}" />
                               </div>
                             </div>
                           </div>

@@ -57,7 +57,7 @@ class MemberController extends Controller
 
     public function detailMember($id){
         $membersInfo = DB::table('tb_member')
-                    ->select('tb_member.id','tb_pelanggan.nama','tb_member.status_member','tb_member.total_saldo', 'tb_member.total_kg')
+                    ->select('tb_member.id','tb_pelanggan.nama','tb_member.id_pelanggan','tb_member.status_member','tb_member.total_saldo', 'tb_member.total_kg')
                     ->selectRaw('(SELECT COUNT(*) FROM tb_member_detail WHERE tb_member_detail.id_member = tb_member.id) AS total_paket')
                     ->join('tb_pelanggan', 'tb_member.id_pelanggan', '=', 'tb_pelanggan.id_pelanggan')
                     ->where('tb_member.id','=',$id)
@@ -79,6 +79,7 @@ class MemberController extends Controller
         $bayarSubtotal = $request->subtotal;
         $jumlahKg = $request->jumlah;
         $memberId = $request->id_member;
+        $id_pelanggan = $request->id_pelanggan;
         $jasaId = $request->id_jasa;
 
         $pakets = DB::select( DB::raw("SELECT * FROM tb_member_detail WHERE id_jasa = :jasaId AND id_member = :memberId"), array(
@@ -99,6 +100,7 @@ class MemberController extends Controller
             $detail = New MemberDetail();
             $detail->id_member = $memberId;
             $detail->id_jasa = $jasaId;
+            $detail->id_pelanggan = $id_pelanggan;
             $detail->subtotal_kg =  $jumlahKg;
             $detail->subtotal_saldo =  $bayarSubtotal;
             $detail->save();

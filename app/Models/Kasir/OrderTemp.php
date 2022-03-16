@@ -15,6 +15,8 @@ class OrderTemp extends Model
     protected $fillable = [
         'no_invoice',
         'id_jasa',
+        'nama_jasa',
+        'id_pelanggan',
         'satuan',
         'harga',
         'jumlah',

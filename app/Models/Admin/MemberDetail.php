@@ -16,6 +16,7 @@ class MemberDetail extends Model
     public $fillable = [
         'id_member',
         'id_jasa',
+        'id_pelanggan',
         'subtotal_kg',
         'subtotal_saldo',
     ];

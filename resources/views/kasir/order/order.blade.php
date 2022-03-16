@@ -134,7 +134,7 @@
                               <a class="btn btn-md btn-block btn-light" id="btnReset"><strong>RESET</strong></a>
                             </div>
                             <div class="col-sm-2">
-                              <a class="btn btn-md btn-block text-light btn-primary" id="btnKonfirmasi"><strong>CHECK</strong></a>
+                              <a class="btn btn-md btn-block text-light btn-primary" type="button" id="btnKonfirmasi"><strong>CHECK</strong></a>
                             </div>
                           </div>
                         </div>  
@@ -144,7 +144,7 @@
                     <div class="table-responsive mt-2" id="cart_table">
                       <h4 class="text-primary">Keranjang Order</h4>
                       <p class="card-description text-muted">Detail order cucian.</p>  
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="tableCart">
                           <thead>
                             <tr>
                               <th>NOMOR INVOICE :</th>
@@ -165,24 +165,6 @@
                             </tr>
                           </thead>
                           <tbody>
-                          @foreach($ordertemp as $orders)
-                            <tr>
-                              <td>{{$orders->nama_jasa}}</td>
-                              <td>{{$orders->jumlah}} {{$orders->satuan}}</td>
-                              <td>{{$orders->harga}}</td>
-                              <td>{{$orders->subtotal}}</td>
-                              <td><a href="{{ route('delete_order',$orders->id_temp) }}" class="btn btn-sm btn-danger">X</a></td>
-                            </tr>
-                          @endforeach
-                            <tr class="table-primary">
-                              <td colspan="3" class="text-right"><strong>Total Harga</strong></td>
-                              <td colspan="2"><strong class="text-primary">
-                                @foreach ($ordertotal as $total)
-                                @endforeach
-                                <input type="text" value="{{$total->totalharga}}" name="total_harga" class="form-control" readonly/> 
-                                <input type="hidden" value="{{$total->totalpaket}}" name="jml_paket"/> 
-                              </strong></td>
-                            </tr>
                           </tbody>
                         </table>
                    </div>
@@ -204,7 +186,7 @@
                   <div class="card-body">
                     <h4 class="text-primary">Tambah Ke Keranjang</h4>
                     <p class="card-description text-muted">Input order baru.</p>                    
-                    <form action="{{route('insert_order')}}" method="POST">
+                    <form id="addOrder">
                       @csrf
                       <div class="row">
                         <div class="col-md-3">
@@ -214,7 +196,7 @@
                               <select name="id_jasa" class="form-control js-example-basic-single" id="id_jasa" required>
                               <option><i>---Pilih Paket---</i></option>
                                 @foreach($jasa as $jasas)
-                                <option value="{{$jasas->id_jasa}}" data-satuan="{{$jasas->satuan_jasa}}" data-harga="{{$jasas->harga_jasa}}">{{$jasas->nama_jasa}}</option>
+                                <option value="{{$jasas->id_jasa}}" data-satuan="{{$jasas->satuan_jasa}}" data-harga="{{$jasas->harga_jasa}}" data-nama="{{$jasas->nama_jasa}}" >{{$jasas->nama_jasa}}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -242,6 +224,7 @@
                               <label for="harga" class="col-form-label text-primary">Harga/Kg</label>
                               <input type="text" name="harga" class="form-control" id="harga" readonly />
                               <input type="hidden" name="no_invoice" class="form-control" id="no_invoice" value="{{$noinvoice}}"/>
+                              <input type="text" name="id_pelanggan" class="form-control" id="idpel" value=""/>
                             </div>
                           </div>
                         </div>
@@ -257,7 +240,7 @@
                           <div class="form-group row">
                             <div class="col-sm-12">
                               <label for="subtotal" class="col-form-label text-primary">+</label>
-                              <button class="text-light form-control btn btn-primary" id="add">Tambah</button>
+                              <button class="text-light form-control btn btn-primary" id="submit">Tambah</button>
                             </div>
                           </div>
                         </div>
@@ -307,16 +290,17 @@
         $("#id_pelanggan option").prop("selected", false).trigger( "change");
         $("#notMember").hide();
         $("#memberInfo").show();
-        $(this).prop('disabled', true);
-        $('#id_pelanggan').removeAttr('disabled');
+        $(this).prop('readonly', true);
+        $('#id_pelanggan').removeAttr('readonly');
         $('#id_member').val('');    
         $('#saldo').val('');    
         $('#sisa').val('');
+        $('#idpel').val('');
       });
 
       $('#btnKonfirmasi').on('click', function() {
-        $(this).prop('disabled', true);
-        $('#id_pelanggan').attr('disabled', 'disabled');  
+        $(this).prop('readonly', true);
+        $('#id_pelanggan').attr('readonly', 'readonly');  
 
         var id = $('#id_pelanggan').val();
         var urlData = "/kasir/check_member/"+id;
@@ -333,14 +317,17 @@
                   var a = response[i].id;
                   var b = response[i].total_saldo;
                   var c = response[i].total_kg;                  
+                  var d = response[i].id_pelanggan;                  
                   $('#id_member').val(a);    
                   $('#saldo').val(b);    
                   $('#sisa').val(c);
+                  $('#idpel').val(d);
                 }
               }
               else{
                 $("#notMember").show();
                 $("#memberInfo").hide();
+                $('#idpel').val(d);
               }
           }
         }); 
@@ -350,4 +337,81 @@
 
 </script>
 
+<script>
+  $('#addOrder').on('submit',function(e){
+        e.preventDefault();
+
+        var nama_jasa = $("#id_jasa :selected").text();
+        let no_invoice = $('#no_invoice').val();
+        let id_jasa = $('#id_jasa').val();
+        let id_pelanggan = $('#id_pelanggan').val();
+        let satuan = $('#satuan').val();
+        let harga = $('#harga').val();
+        let jumlah = $('#jumlah').val();
+        let subtotal = $('#subtotal').val();
+
+        $.ajax({
+          url: "/kasir/insert_order",
+          type:"POST",
+          dataType:"JSON",
+          data:{
+            "_token": "{{ csrf_token() }}",
+            no_invoice:no_invoice,
+            id_jasa:id_jasa,
+            nama_jasa:nama_jasa,
+            id_pelanggan:id_pelanggan,
+            satuan:satuan,
+            harga:harga,
+            jumlah:jumlah,
+            subtotal:subtotal,
+          },
+          success:function(response){
+            if (response) {
+              successAdd();
+
+              $("#id_jasa option").prop("selected", false).trigger( "change");
+              $("#jumlah").val('');
+              $("#harga").val('');
+              $("#subtotal").val('');
+
+              $.each(response, function(index, item) {
+                  var rowData = `
+                      <tr>
+                        <td>${item.nama_jasa}</td>
+                        <td>${item.jumlah}</td>
+                        <td>${item.harga}</td>
+                        <td>${item.subtotal}</td>
+                      </tr>
+                  `;
+
+                  $('#tableCart > tbody').append(rowData);
+              });
+
+            }
+          },
+          error: function(response) {
+            warningOrder();
+           }
+         });
+        });
+
+        function successAdd(){
+          Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Berhasil dimasukkan ke keranjang',
+              showConfirmButton: true,
+              confirmButtonColor: '#3085d6'
+            })  
+        }
+        function warningOrder(){
+          Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Pelanggan belum dipilih!',
+              showConfirmButton: true,
+              confirmButtonColor: '#3085d6'
+            })  
+        }
+</script>
 @endpush

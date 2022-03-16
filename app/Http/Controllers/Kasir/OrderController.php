@@ -57,18 +57,28 @@ class OrderController extends Controller
     }
 
     public function insertOrder(Request $request){
-        $request->validate([
-            'no_invoice' => 'required',
-            'id_jasa' => 'required',
-            'satuan' => 'required',
-            'harga' => 'required',
-            'jumlah' => 'required',
-            'subtotal' => 'required',
+                    
+        OrderTemp::create([
+            'no_invoice' => $request->no_invoice,
+            'id_jasa' => $request->id_jasa,
+            'nama_jasa' => $request->nama_jasa,
+            'id_pelanggan' => $request->id_pelanggan,
+            'satuan' => $request->satuan,
+            'harga' => $request->harga,
+            'jumlah' => $request->jumlah,
+            'subtotal' => $request->subtotal,
         ]);
-      
-        OrderTemp::create($request->all());
 
-        return redirect()->route('order.index');
+        return response()->json([
+            'no_invoice' => $request->no_invoice,
+            'id_jasa' => $request->id_jasa,
+            'nama_jasa' => $request->nama_jasa,
+            'id_pelanggan' => $request->id_pelanggan,
+            'satuan' => $request->satuan,
+            'harga' => $request->harga,
+            'jumlah' => $request->jumlah,
+            'subtotal' => $request->subtotal,
+        ]);
     }
 
     public function deleteOrder($id){        
