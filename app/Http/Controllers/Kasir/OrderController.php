@@ -57,17 +57,38 @@ class OrderController extends Controller
     }
 
     public function insertOrder(Request $request){
-                    
-        OrderTemp::create([
-            'no_invoice' => $request->no_invoice,
-            'id_jasa' => $request->id_jasa,
-            'nama_jasa' => $request->nama_jasa,
-            'id_pelanggan' => $request->id_pelanggan,
-            'satuan' => $request->satuan,
-            'harga' => $request->harga,
-            'jumlah' => $request->jumlah,
-            'subtotal' => $request->subtotal,
-        ]);
+        
+        $noInv = $request->no_invoice;
+        $idJasa = $request->id_jasa;
+        $idPelanggan = $request->id_pelanggan;
+        $jumlahKg = $request->jumlah;
+        $subtotal = $request->subtotal;
+
+        $orders = DB::select( DB::raw("SELECT * FROM tb_order_temp WHERE id_jasa = :jasaId AND id_pelanggan = :pelangganId"), array(
+            'jasaId' => $idJasa,
+            'pelangganId' => $idPelanggan,
+        ));   
+
+        foreach($orders as $rowOrders){
+        }
+
+        if ($orders){
+            OrderTemp::where('id_jasa',$idJasa)->update(array(
+                'jumlah'=>$jumlahKg + $rowOrders->jumlah,
+                'subtotal'=>$subtotal + $rowOrders->subtotal,
+            ));
+        }else{
+            OrderTemp::create([
+                'no_invoice' => $noInv,
+                'id_jasa' => $idJasa,
+                'nama_jasa' => $request->nama_jasa,
+                'id_pelanggan' => $idPelanggan,
+                'satuan' => $request->satuan,
+                'harga' => $request->harga,
+                'jumlah' => $jumlahKg,
+                'subtotal' => $subtotal,
+            ]);
+        }
 
         return response()->json([
             'no_invoice' => $request->no_invoice,
@@ -149,7 +170,7 @@ class OrderController extends Controller
             $data = OrderTemp::select('id_temp','nama_jasa','jumlah','harga','subtotal')->get();
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $btn = "<button data-id='{$row->id_temp}' class='btn btn-danger btn-xs' id='btnDelete'>X</button>";
+                    $btn = "<button class='btn-delete' data-remote='/kasir/delete_order/{$row->id_temp}'>X</button>";
                     return $btn;
                 })
                 ->rawColumns(['action'])

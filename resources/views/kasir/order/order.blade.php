@@ -247,11 +247,6 @@
 
                           </tbody>
                           <tfoot>
-                          <tr>
-                              <th colspan="2">Total Bayar</th>
-                              <th><input type="text" value="" class="form-control" id="total_harga" readonly/></th>
-                              <th><input type="text" value="" class="form-control" id="jml_paket" readonly/></th>
-                          </tr>
                           </tfoot>
                         </table>
                     </div>
@@ -431,42 +426,23 @@
 </script>
 
 <script type="text/javascript">
-  $("#btnDelete").on('click',function(e) {
-      e.preventDefault();
-
-      var id = $(this).data("id");
-      var token = $("meta[name='csrf-token']").attr("content");
-      var parent = $(this).parent();
-
-      swal({
-            title: "Wait..!",
-            text: "Yakin akan menghapus orderan ini dari keranjang?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-           }).then((willDelete) => {
-      if (willDelete) {
-          $.ajax({
-              url: "delete_party/"+id,
-              type: 'DELETE',
-              data: {
-                  "id_temp": id,
-                  "_token": token,
-              },
-              success: function (){
-                    parent.slideUp(300, function () {
-                          parent.closest("tr").remove();
-                      });
-              },
-              error: function() {
-                  alert('error');
-              },
-          });
-        } else {
-              swal("Gagal");
+$('#tableCart').on('click', '.btn-delete[data-remote]', function (e) { 
+    e.preventDefault();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-      });
-
-  });
+    });
+    var url = $(this).data('remote');
+    // confirm then
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        data: {method: '_GET', submit: true}
+    }).always(function (data) {
+        $('#tableCart').DataTable().draw(false);
+    });
+});
 </script>
 @endpush

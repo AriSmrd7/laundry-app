@@ -72,9 +72,15 @@ Route::group(['prefix'=>'kasir'], function () {
     
     Route::resource('pelanggan', App\Http\Controllers\Kasir\PelangganKasirController::class);
 
-
     Route::get('/get-order',[App\Http\Controllers\Kasir\OrderController::class,'getOrderData'])->name('get_order_data');
 
+    Route::get('/member-kasir', [App\Http\Controllers\Kasir\MemberController::class, 'index'])->name('members-kasir.index');
+    Route::get('/member-kasir/create', [App\Http\Controllers\Kasir\MemberController::class, 'addMember'])->name('members-kasir.create');
+    Route::post('/member-kasir/store', [App\Http\Controllers\Kasir\MemberController::class, 'storeMember'])->name('members-kasir.store');
+    Route::get('/member-kasir/detail/{id}', [App\Http\Controllers\Kasir\MemberController::class, 'detailMember'])->name('members-kasir.detail');
+    Route::post('/member-kasir/detail/{id}/update', [App\Http\Controllers\Kasir\MemberController::class, 'updateMember'])->name('members-kasir.update');
+    Route::get('/member-kasir/detail/detele/paket/{id}', [App\Http\Controllers\Kasir\MemberController::class, 'delPaket'])->name('members-kasir.delete');
+    Route::get('/member-kasir/{id}/delete', [App\Http\Controllers\Kasir\MemberController::class, 'delMember'])->name('members-kasir.delmember');
 });
 
 Route::get('logout', function (){
