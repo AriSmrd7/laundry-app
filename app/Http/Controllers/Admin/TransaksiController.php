@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class TransaksiController extends Controller
 {
@@ -19,16 +20,23 @@ class TransaksiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transaksi = DB::table('tb_transaksi')
-                        ->select('*')
-                        ->join('tb_order', 'tb_transaksi.no_invoice', '=', 'tb_order.id')
-                        ->join('users', 'tb_transaksi.id_petugas', '=', 'users.id')
-                        ->get();        
-    
-        return view('admin.transaksi.transaksi',compact('transaksi'))
-                        ->with('i', (request()->input('page', 1) - 1) * 5);  
+        if ($request->ajax()) {
+            $data = Transaksi::select('*')
+                    ->join('tb_order', 'tb_transaksi.no_invoice', '=', 'tb_order.id')
+                    ->join('users', 'tb_transaksi.id_petugas', '=', 'users.id')
+                    ->get();
+            return DataTables::of($data)->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn = "<a class='btn btn-xs btn-success' href='orders/{$row->no_invoice}'>Detail</a>";
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('admin.transaksi.transaksi');  
     }
 
     /**

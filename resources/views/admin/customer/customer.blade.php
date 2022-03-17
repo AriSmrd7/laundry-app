@@ -51,6 +51,9 @@
               lengthChange: false,
               filter: true,
               autoWidth: false, 
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/id.json'
+              },
               ajax: "/admin/customer",
               columns: [
                   {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },

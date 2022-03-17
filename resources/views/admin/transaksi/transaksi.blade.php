@@ -12,14 +12,14 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
-                    <table class="table table-bordered">
+                    <div class="table-responsive">
+                    <table class="table table-bordered" id="tableTrx">
                       <thead>
                         <tr class="table-info">
                           <th width="1%"> No </th>
                           <th> No. Invoice </th>
-                          <th> Tanggal Masuk </th>
+                          <th> Tgl Masuk </th>
                           <th> Total Harga </th>
-                          <th> Total Bayar </th>
                           <th> Status </th>
                           <th> Cucian </th>
                           <th> Kasir </th>
@@ -27,23 +27,9 @@
                         </tr>
                       </thead>
                       <tbody>
-                      @foreach ($transaksi as $row)
-                        <tr>
-                          <td>{{ ++$i }}</td>
-                          <td> {{ $row->no_invoice }} </td>
-                          <td> {{ $row->tgl_masuk }} </td>
-                          <td> {{ $row->total_trx }} </td>
-                          <td> {{ $row->bayar }} </td>
-                          <td> {{ $row->status }} </td>
-                          <td> {{ $row->status_cucian }} </td>
-                          <td> {{ $row->name }} </td>
-                          <td>
-                            <a class="btn btn-xs btn-success" href="{{route('orders.invoice',$row->no_invoice)}}">Detail</a>
-                          </td>
-                        </tr>
-                      @endforeach
                       </tbody>
                     </table>
+                    </div>
                     <div class="row text-center">
                         
                     </div>
@@ -52,3 +38,36 @@
               </div>
             </div>
 @endsection
+@push('custom-scripts')
+<script type="text/javascript">
+    $(document).ready(function() {
+          $('#tableTrx').DataTable({
+              processing: true,
+              serverSide: true,
+              paging: true,
+              info: true,
+              ordering: false,
+              searching: true,
+              stateSave: true,
+              destroy: true,
+              lengthChange: false,
+              filter: true,
+              autoWidth: true, 
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/id.json'
+              },
+              ajax: "/admin/order-transaksi",
+              columns: [
+                  {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                  {data: 'no_invoice', name: 'no_invoice'},
+                  {data: 'tgl_masuk', name: 'tgl_masuk'},
+                  {data: 'total_trx', name: 'total_trx'},
+                  {data: 'status', name: 'status'},
+                  {data: 'status_cucian', name: 'status_cucian'},
+                  {data: 'name', name: 'name'},
+                  {data: 'action', name: 'action', orderable: false, searchable: false},
+              ]
+          });
+     });
+</script>
+@endpush
