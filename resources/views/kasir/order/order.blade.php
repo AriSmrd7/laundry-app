@@ -411,7 +411,9 @@
               ordering: false,
               searching: false,
               stateSave: true,
-              "bDestroy": true,
+              autoWidth: false, 
+              lengthChange: false,
+              destroy: true,
               ajax: "/kasir/get-order",
               columns: [
                   {data: 'nama_jasa', name: 'nama_jasa'},

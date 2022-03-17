@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Customer;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class CustomerController extends Controller
 {
@@ -18,8 +19,25 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $data = Customer::select('id_pelanggan','nama','telepon','alamat')->get();
+            return DataTables::of($data)->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $csrf = csrf_token();
+                    $btn = "<form action='/admin/customer/{$row->id_pelanggan}' method='POST'>
+                    <a class='btn btn-xs btn-primary' href='/admin/customer/{$row->id_pelanggan}/edit'>Ubah</a>
+                    <input type='hidden' name='_method' value='delete' />
+                    <input type='hidden' name='_token' value='{$csrf}'>
+                     <button type='submit' class='btn btn-xs btn-danger'>Hapus</button>
+                 </form>";
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
         $customer = Customer::latest()->paginate(5);
       
         return view('admin.customer.customer',compact('customer'))

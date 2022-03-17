@@ -16,7 +16,7 @@
                         </div>
                     @endif
                     <div class="table-responsive">
-                      <table class="table table-bordered">
+                      <table class="table table-bordered" id="tableCust">
                         <thead>
                           <tr class="table-info">
                             <th width="1%"> No </th>
@@ -27,22 +27,6 @@
                           </tr>
                         </thead>
                         <tbody>
-                        @foreach ($customer as $row)
-                          <tr>
-                            <td>{{ ++$i }}</td>
-                            <td> {{ $row->nama }} </td>
-                            <td> {{ $row->telepon }} </td>
-                            <td> {{ $row->alamat }} </td>
-                            <td>  
-                            <form action="{{ route('customer.destroy',$row->id_pelanggan) }}" method="POST">
-                               <a class="btn btn-primary" href="{{ route('customer.edit',$row->id_pelanggan) }}">Ubah</a>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Hapus</button>
-                            </form>
-                            </td>
-                          </tr>
-                        @endforeach
                         </tbody>
                       </table>
                     </div>
@@ -51,3 +35,31 @@
               </div>
             </div>
 @endsection
+
+@push('custom-scripts')
+<script type="text/javascript">
+    $(document).ready(function() {
+          $('#tableCust').DataTable({
+              processing: true,
+              serverSide: true,
+              paging: true,
+              info: false,
+              ordering: false,
+              searching: true,
+              stateSave: true,
+              destroy: true,
+              lengthChange: false,
+              filter: true,
+              autoWidth: false, 
+              ajax: "/admin/customer",
+              columns: [
+                  {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                  {data: 'nama', name: 'nama'},
+                  {data: 'telepon', name: 'telepon'},
+                  {data: 'alamat', name: 'alamat'},
+                  {data: 'action', name: 'action', orderable: false, searchable: false},
+              ]
+          });
+     });
+</script>
+@endpush

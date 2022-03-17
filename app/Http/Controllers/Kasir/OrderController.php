@@ -170,7 +170,7 @@ class OrderController extends Controller
             $data = OrderTemp::select('id_temp','nama_jasa','jumlah','harga','subtotal')->get();
             return DataTables::of($data)->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $btn = "<button class='btn-delete' data-remote='/kasir/delete_order/{$row->id_temp}'>X</button>";
+                    $btn = "<button class='btn btn-danger btn-delete' data-remote='/kasir/delete_order/{$row->id_temp}'>X</button>";
                     return $btn;
                 })
                 ->rawColumns(['action'])
