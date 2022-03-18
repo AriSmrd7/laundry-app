@@ -114,7 +114,7 @@
                           <div class="form-group row">
                             <div class="col-sm-12">
                               <label for="tgl_selesai" class="col-form-label text-primary">Estimasi Selesai</label>
-                              <input type="date" name="tgl_selesai" class="form-control" required/>
+                              <input type="date" name="tgl_selesai" id="tgl_selesai" class="form-control" required/>
                             </div>
                           </div>
                         </div>
@@ -269,6 +269,13 @@
     var alamat = $(this).children('option:selected').data('alamat');
     $('#telepon').val(telepon);
     $('#alamat').val(alamat);
+  });
+
+  $("input[type=date]").datepicker({
+    dateFormat: 'yy-mm-dd',
+    onSelect: function(dateText, inst) {
+      $(inst).val(dateText); // Write the value in the input
+    }
   });
 </script>
 

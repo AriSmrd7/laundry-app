@@ -19,7 +19,7 @@
                           <th width="1%"> No </th>
                           <th> No. Invoice </th>
                           <th> Tgl Masuk </th>
-                          <th> Total Harga </th>
+                          <th> Tagihan </th>
                           <th> Status </th>
                           <th> Cucian </th>
                           <th> Kasir </th>

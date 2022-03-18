@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Response;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Carbon;
 
 class OrderController extends Controller
 {
@@ -130,11 +131,13 @@ class OrderController extends Controller
         OrderTemp::query()->truncate();
 
         $noInvoice = $request->no_invoice;
+        $date = $request->tgl_selesai;
+        $tgl_selesai = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
 
         $order = New Order();
         $order->id = $noInvoice;
         $order->tgl_masuk = $request->tgl_masuk;
-        $order->tgl_selesai = $request->tgl_selesai;
+        $order->tgl_selesai = $tgl_selesai;
         $order->jam_masuk = $request->jam_masuk;
         $order->jam_selesai = $request->jam_selesai;
         $order->jml_paket = $jmlPaket;

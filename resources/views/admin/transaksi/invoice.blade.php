@@ -79,7 +79,7 @@
                             </tr>
                           @endforeach
                             <tr class="table-info">
-                              <td colspan="4" class="text-right">TOTAL HARGA</td>
+                              <td colspan="4" class="text-right">TAGIHAN</td>
                               <td class="text-primary">{{$checks->total_harga}}</td>
                             </tr>
                             <tr>
