@@ -132,7 +132,7 @@
                             <div class="form-group row">
                               <div class="col-sm-12">
                                 <label for="jumlah" class="col-form-label text-primary">Jumlah (Kg)</label>
-                                <input type="text" name="jumlah" maxlength="3" onkeypress="return onlyNumber(event, false)" class="form-control" id="jumlah" placeholder="0" required />
+                                <input type="text" name="jumlah" maxlength="3" class="form-control" id="jumlah" placeholder="0" required />
                               </div>
                             </div>
                           </div>
@@ -177,27 +177,9 @@
     $('.js-example-basic-single').select2();
   });
 
-  function onlyNumber(e,decimal){
-            var key;
-            var keychar;
-            if(window.event){
-                key = window.event.keyCode;
-            }else
-                if(e){
-                    key = e.which;
-                }else return true;
-                
-                keychar = String.fromCharCode(key);
-                if((key==null) || (key==0) || (key==8) || (key==9) || (key==13) || (key==27)){
-                    return true;
-                }else
-                    if((("0123456789").indexOf(keychar)>-1)){
-                        return true;
-                    }else
-                        if(decimal && (keychar ==".")){
-                            return true;
-                        }else return false;
-	}
+  $('#jumlah').on('input', function() {
+    this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+  });
 </script>
 
 <script>
