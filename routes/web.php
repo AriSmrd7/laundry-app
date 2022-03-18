@@ -48,6 +48,8 @@ Route::group(['prefix'=>'admin'], function () {
     Route::get('/member/detail/detele/paket/{id}', [App\Http\Controllers\Admin\MemberController::class, 'delPaket'])->name('members.delete');
     Route::get('/member/{id}/delete', [App\Http\Controllers\Admin\MemberController::class, 'delMember'])->name('members.delmember');
 
+    Route::get('/laporan', [App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('laporan.index');
+
 });
 
 Route::group(['prefix'=>'kasir'], function () {
