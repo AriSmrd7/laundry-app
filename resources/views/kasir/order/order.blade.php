@@ -131,7 +131,7 @@
                         <div class="col-md-12">
                           <div class="form-group row">
                             <div class="col-sm-2">
-                              <a class="btn btn-md btn-block btn-light" id="btnReset"><strong>RESET</strong></a>
+                              <a class="btn btn-lg btn-block btn-outline-danger" id="btnReset"><strong>RESET</strong></a>
                             </div>
                             <div class="col-sm-3">
                               <a class="btn btn-lg btn-block text-light btn-primary" type="button" id="btnKonfirmasi">
@@ -168,7 +168,7 @@
                                 <option value="{{$jasas->id_jasa}}" data-satuan="{{$jasas->satuan_jasa}}" data-harga="{{$jasas->harga_jasa}}" data-nama="{{$jasas->nama_jasa}}" >{{$jasas->nama_jasa}}</option>
                                 @endforeach
                               </select>
-                              <span id="sisaMember">
+                              <span id="sisaMember" style="display: none;">
                                 <div class="row col-sm-8">
                                 <label for="id_jasa" class="col-form-label text-primary">Saldo member</label>
                                 <input type="text" value="" name="sisa_kg" id="sisa_kg" class="form-control" readonly/>
@@ -307,7 +307,7 @@
               if (response && response.length > 0) {  
                 var len = response.length;
                 for(var i=0; i<len; i++){     
-                  var sk = response[i].subtotal_kg;             
+                  var sk = response[i].subtotal_kg + " Kg";             
                   $('#sisa_kg').val(sk);    
                 }
                 $("#sisaMember").show();
