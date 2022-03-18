@@ -19,8 +19,8 @@
                             <div class="form-group row">
                               <div class="col-sm-12">
                                 <label for="id_pelanggan" class="col-form-label text-primary">Nama Pelanggan</label>
-                                <select name="id_pelanggan" class="form-control js-example-basic-single" id="id_pelanggan" required>
-                                <option><i>---Pilih Pelanggan---</i></option>
+                                <select name="id_pelanggan" class="form-control js-example-basic-single" id="id_pelanggan">
+                                <option value="notselected"><i>---Pilih Pelanggan---</i></option>
                                 @foreach($pelanggan as $pelanggans)
                                 <option value="{{$pelanggans->id_pelanggan}}" data-telepon="{{$pelanggans->telepon}}" data-alamat="{{$pelanggans->alamat}}">{{$pelanggans->nama}}</option>
                                 @endforeach
@@ -85,8 +85,8 @@
                           <div class="form-group row">
                             <div class="col-sm-11">
                               <label for="pewangi" class="col-form-label text-primary">Pewangi</label>
-                              <select name="id_pewangi" class="form-control js-example-basic-single" required>
-                                <option value="0"><i>--Pilih--</i></option>
+                              <select name="id_pewangi" id="id_pewangi" class="form-control js-example-basic-single3 required">
+                                <option value="notpewangi"><i>--Pilih--</i></option>
                                 @foreach($pewangi as $pewangis)
                                 <option value="{{$pewangis->id_pewangi}}">{{$pewangis->nama_pewangi}}</option>
                                 @endforeach
@@ -162,12 +162,18 @@
                           <div class="form-group row">
                             <div class="col-sm-12">
                               <label for="id_jasa" class="col-form-label text-primary">Paket Cucian</label>
-                              <select name="id_jasa" class="form-control js-example-basic-single" id="id_jasa" required>
+                              <select name="id_jasa" class="form-control js-example-basic-single2" id="id_jasa" required>
                               <option><i>---Pilih Paket---</i></option>
                                 @foreach($jasa as $jasas)
                                 <option value="{{$jasas->id_jasa}}" data-satuan="{{$jasas->satuan_jasa}}" data-harga="{{$jasas->harga_jasa}}" data-nama="{{$jasas->nama_jasa}}" >{{$jasas->nama_jasa}}</option>
                                 @endforeach
                               </select>
+                              <span id="sisaMember">
+                                <div class="row col-sm-8">
+                                <label for="id_jasa" class="col-form-label text-primary">Saldo member</label>
+                                <input type="text" value="" name="sisa_kg" id="sisa_kg" class="form-control" readonly/>
+                                </div>
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -258,33 +264,59 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('.js-example-basic-single').select2();
+    $('.js-example-basic-single2').select2();
+    $('.js-example-basic-single3').select2();
+  });
+  
+  $("select").on("select2:close", function (e) {
+        $(this).valid(); 
   });
 
   $('#jumlah').on('input', function() {
     this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
   });
 
-  $('#id_pelanggan').on('change',function(){
+  $('#id_pelanggan').on('change',function(e){
+    e.preventDefault();
     var telepon = $(this).children('option:selected').data('telepon');
     var alamat = $(this).children('option:selected').data('alamat');
     $('#telepon').val(telepon);
     $('#alamat').val(alamat);
   });
-
-  $("input[type=date]").datepicker({
-    dateFormat: 'yy-mm-dd',
-    onSelect: function(dateText, inst) {
-      $(inst).val(dateText); // Write the value in the input
-    }
-  });
 </script>
 
 <script>
-  $('#id_jasa').on('change',function(){
+  $('#id_jasa').on('change',function(e){
+    e.preventDefault();
     var satuan = $(this).children('option:selected').data('satuan');
     var harga = $(this).children('option:selected').data('harga');
     $('#satuan').val(satuan);
     $('#harga').val(harga);
+    $('#jumlah').val('');
+    $('#subtotal').val('');
+
+    //check saldo
+    var id = $('#id_pelanggan').val();
+    var paket = $('#id_jasa').val();
+    var urlData = "/kasir/sisa_member/"+id+"/"+paket;    
+        $.ajax({
+          type:"GET",
+          url: urlData,
+          dataType:"JSON",
+          success : function(response) {
+              if (response && response.length > 0) {  
+                var len = response.length;
+                for(var i=0; i<len; i++){     
+                  var sk = response[i].subtotal_kg;             
+                  $('#sisa_kg').val(sk);    
+                }
+                $("#sisaMember").show();
+              }
+              else{
+                $('#sisaMember').hide();
+              }
+          }
+        }); 
 
     $('#jumlah').on('keyup', function() {
       var jumlah = $('#jumlah').val();
@@ -298,8 +330,9 @@
         $("#id_pelanggan option").prop("selected", false).trigger( "change");
         $("#notMember").hide();
         $("#memberInfo").show();
-        $(this).prop('readonly', true);
-        $('#id_pelanggan').removeAttr('readonly');
+        $('.js-example-basic-single').select2({
+          disabled: false
+        });
         $('#id_member').val('');    
         $('#saldo').val('');    
         $('#sisa').val('');
@@ -307,9 +340,19 @@
       });
 
       $('#btnKonfirmasi').on('click', function() {
-        $(this).prop('readonly', true);
-        $('#id_pelanggan').attr('readonly', 'readonly');  
-
+        if($('#id_pelanggan').val() == 'notselected'){
+          Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Pelanggan belum dipilih!',
+              showConfirmButton: true,
+              confirmButtonColor: '#3085d6'
+            })  
+        }
+        else{
+        $('.js-example-basic-single').select2({
+          disabled: true
+        });
         var id = $('#id_pelanggan').val();
         var urlData = "/kasir/check_member/"+id;
         
@@ -338,15 +381,34 @@
                 $('#idpel').val(d);
               }
           }
-        }); 
+          }); 
+        }
+        });
+  
+        $('#btn-finish').on('click', function() {
+          if($('#id_pewangi').val() == 'notpewangi'){
+          Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Data order belum dilengkapi!',
+              showConfirmButton: true,
+              confirmButtonColor: '#3085d6'
+            })  
+          }
+          else{
+              $('.js-example-basic-single').select2({
+                disabled: false
+              });
+          }
+        });
 
-      });
   });
 
 </script>
 
 <script>
   $('#addOrder').on('submit',function(e){
+    
         e.preventDefault();
         var nama_jasa = $("#id_jasa :selected").text();
         let no_invoice = $('#no_invoice').val();
@@ -386,6 +448,10 @@
           },
           error: function(response) {
             warningOrder();
+            $("#id_jasa option").prop("selected", false).trigger( "change");
+            $("#jumlah").val('');
+            $("#harga").val('');
+            $("#subtotal").val('');
            }
          });
         });
@@ -403,7 +469,8 @@
           Swal.fire({
               position: 'center',
               icon: 'error',
-              title: 'Pelanggan belum dipilih!',
+              title: 'Error',
+              text: 'Mohon lengkapi semua data diatas terlebih dahulu!',
               showConfirmButton: true,
               confirmButtonColor: '#3085d6'
             })  
@@ -435,23 +502,23 @@
 </script>
 
 <script type="text/javascript">
-$('#tableCart').on('click', '.btn-delete[data-remote]', function (e) { 
-    e.preventDefault();
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    var url = $(this).data('remote');
-    // confirm then
-    $.ajax({
-        url: url,
-        type: 'GET',
-        dataType: 'json',
-        data: {method: '_GET', submit: true}
-    }).always(function (data) {
-        $('#tableCart').DataTable().draw(false);
-    });
-});
+  $('#tableCart').on('click', '.btn-delete[data-remote]', function (e) { 
+      e.preventDefault();
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+      var url = $(this).data('remote');
+      // confirm then
+      $.ajax({
+          url: url,
+          type: 'GET',
+          dataType: 'json',
+          data: {method: '_GET', submit: true}
+      }).always(function (data) {
+          $('#tableCart').DataTable().draw(false);
+      });
+  });
 </script>
 @endpush

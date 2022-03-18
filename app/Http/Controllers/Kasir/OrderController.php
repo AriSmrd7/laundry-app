@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Kasir;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Member;
+use App\Models\Kasir\MemberDetail;
 use App\Models\Kasir\Order;
 use App\Models\Kasir\OrderDetail;
 use App\Models\Kasir\OrderTemp;
@@ -166,6 +167,14 @@ class OrderController extends Controller
                         ->where('id_pelanggan',$id)
                         ->get();  
         return Response::json($member);
+    }
+
+    public function sisaMember($id,$paket) {
+        $memberInfo = MemberDetail::select( 'id_member','id_jasa', 'id_pelanggan','subtotal_saldo','subtotal_kg')
+                            ->where('id_pelanggan',$id)
+                            ->where('id_jasa',$paket)
+                            ->get();  
+        return Response::json($memberInfo);
     }
 
     public function getOrderData(Request $request){

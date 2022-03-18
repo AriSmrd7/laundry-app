@@ -56,6 +56,9 @@ Route::group(['prefix'=>'kasir'], function () {
 
     Route::get('/check_member/{id}', [App\Http\Controllers\Kasir\OrderController::class, 'checkMember'])->name('checkMember');
 
+    Route::get('/sisa_member/{id}/{paket}', [App\Http\Controllers\Kasir\OrderController::class, 'sisaMember'])->name('sisaMember');
+
+
     Route::post('/insert_order', [App\Http\Controllers\Kasir\OrderController::class, 'insertOrder'])->name('insert_order');
     Route::post('/create_invoice', [App\Http\Controllers\Kasir\OrderController::class, 'createInvoice'])->name('create_invoice');
     Route::get('/delete_order/{id}', [App\Http\Controllers\Kasir\OrderController::class, 'deleteOrder'])->name('delete_order');
