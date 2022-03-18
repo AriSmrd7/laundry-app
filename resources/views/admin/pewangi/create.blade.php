@@ -23,7 +23,7 @@
                         @csrf
                           <div class="form-group">
                             <label for="exampleInputEmail1">Nama Pewangi</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama_pewangi" placeholder="Masukkan nama pewangi">
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama_pewangi" placeholder="Masukkan nama pewangi" required>
                           </div>
                           <button type="submit" class="btn btn-success mr-2">Simpan</button>
                           <button class="btn btn-light">Cancel</button>

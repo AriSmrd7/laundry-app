@@ -19,9 +19,8 @@
                       <thead>
                         <tr class="table-info">
                           <th width="1%"> No </th>
-                          <th> Nama Jasa </th>
-                          <th> Jenis Satuan </th>
-                          <th> Harga per Satuan </th>
+                          <th> Nama Paket </th>
+                          <th width="5%"> Harga </th>
                           <th width="10%" class=" text-center"> Action </th>
                         </tr>
                       </thead>
@@ -30,25 +29,22 @@
                         <tr>
                           <td>{{ ++$i }}</td>
                           <td> {{ $row->nama_jasa }} </td>
-                          <td> {{ $row->satuan_jasa }} </td>
-                          <td> {{ $row->harga_jasa }} </td>
+                          <td> @rupiah($row->harga_jasa)/{{ $row->satuan_jasa }}</td>
                           <td>  
                           <form action="{{ route('jasa.destroy',$row->id_jasa) }}" method="POST">
-                              <a class="btn btn-primary" href="{{ route('jasa.edit',$row->id_jasa) }}">Ubah</a>
+                              <a class="btn btn-xs btn-primary" href="{{ route('jasa.edit',$row->id_jasa) }}">Ubah</a>
                               @csrf
                               @method('DELETE')
-                              <button type="submit" class="btn btn-danger">Hapus</button>
+                              <button type="submit" class="btn btn-xs btn-danger">Hapus</button>
                           </form>
                           </td>
                         </tr>
                       @endforeach
                       </tbody>
                     </table>
-                    <div class="row text-center">
-                        {!! $jasa->links() !!}
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
 @endsection
+

@@ -27,7 +27,6 @@ class PetugasController extends Controller
                         ->selectRaw('SUM(tb_transaksi.total_trx) as total_order')
                         ->selectRaw('SUM(tb_transaksi.bayar) as pemasukan')
                         ->selectRaw('SUM(tb_transaksi.kembalian) as pengeluaran')
-                        ->selectRaw('SUM(tb_transaksi.total_trx - tb_transaksi.bayar) as pendapatan')
                         ->join('role_user', 'users.id', '=', 'role_user.user_id')
                         ->join('roles', 'roles.id', '=', 'role_user.role_id')
                         ->join('tb_order', 'users.id', '=', 'tb_order.id_petugas')

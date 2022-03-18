@@ -23,7 +23,7 @@
                         @csrf
                           <div class="form-group">
                             <label for="exampleInputEmail1">Nama Paket</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama_jasa" placeholder="Masukkan nama jasa">
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama_jasa" placeholder="Masukkan nama paket">
                           </div>
                           <div class="form-group">
                             <label for="exampleInputEmail2">Jenis Satuan</label>
@@ -35,7 +35,7 @@
                           </div>
                           <div class="form-group">
                             <label for="exampleInputEmail3">Harga per Satuan</label>
-                            <input type="text" class="form-control" id="exampleInputEmail3" name="harga_jasa" placeholder="Contoh : 15000">
+                            <input type="text" class="form-control" id="harga" name="harga_jasa" placeholder="Contoh : 15000">
                           </div>
                           <button type="submit" class="btn btn-success mr-2">Simpan</button>
                           <button class="btn btn-light">Cancel</button>
@@ -46,3 +46,10 @@
               </div>
             </div>
 @endsection
+@push('custom-scripts')
+<script type="text/javascript">
+  $('#harga').on('input', function() {
+    this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+  });
+</script>
+@endpush

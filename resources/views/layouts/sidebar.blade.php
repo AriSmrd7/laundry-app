@@ -45,6 +45,12 @@
         <span class="menu-title">Data Kasir</span>
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{url('admin/laporan')}}">
+        <i class="menu-icon typcn typcn-th-large-outline"></i>
+        <span class="menu-title">Laporan</span>
+      </a>
+    </li>
     @endif
 
     @if(Auth::User()->hasRole('ROLE_KASIR'))

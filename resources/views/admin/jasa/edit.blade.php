@@ -34,7 +34,7 @@
                           </div>
                           <div class="form-group">
                             <label for="exampleInputEmail3">Harga per Satuan</label>
-                            <input type="text" class="form-control" id="exampleInputEmail3" name="harga_jasa" value="{{$jasa->harga_jasa}}">
+                            <input type="text" class="form-control" id="harga" name="harga_jasa" value="{{$jasa->harga_jasa}}">
                           </div>
                           <button type="submit" class="btn btn-success mr-2">Simpan</button>
                           <button class="btn btn-light">Cancel</button>
@@ -45,3 +45,10 @@
               </div>
             </div>
 @endsection
+@push('custom-scripts')
+<script type="text/javascript">
+  $('#harga').on('input', function() {
+    this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+  });
+</script>
+@endpush

@@ -9,15 +9,15 @@
                     <p class="card-description text-muted">List data kasir yang bertugas di laundry.</p>
                     <table class="table table-bordered">
                       <thead>
-                        <tr class="table-info">
+                        <tr class="table-info text-center">
                           <th width="1%"> No </th>
                           <th> Nama Kasir </th>
                           <th> Email </th>
                           <th width="15%"> Transaksi </th>
                           <th width="15%"> Total Orderan </th>
-                          <th width="15%"> Pembayaran </th>
-                          <th width="15%"> Kembalian </th>
-                          <th width="15%"> Pendapatan Bersih </th>
+                          <th width="15%"> Uang Masuk </th>
+                          <th width="15%"> Uang Keluar </th>
+                          <th width="5%"> Status </th>
                           <!--th width="10%"> Action </th-->
                         </tr>
                       </thead>
@@ -31,7 +31,11 @@
                           <td class="text-center"> @rupiah($row->total_order) </td>
                           <td class="text-center"> @rupiah($row->pemasukan)</td>
                           <td class="text-center"> @rupiah($row->pengeluaran)</td>
-                          <td class="text-center"> @rupiah($row->pendapatan)</td>
+                          @if($row->pemasukan - $row->pengeluaran < $row->total_order)
+                          <td class="text-center"><label class="badge badge-danger">Minus</label></td>
+                          @else
+                          <td class="text-center"><label class="badge badge-primary">Sukses</label></td>
+                          @endif
                           <!--td>
                           <form action="{{ route('petugas.destroy',$row->id) }}" method="POST">
                               <a class="btn btn-primary" href="{{ route('petugas.edit',$row->id) }}">Ubah</a>

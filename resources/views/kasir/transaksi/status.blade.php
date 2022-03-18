@@ -21,7 +21,7 @@
                                         <input type="text" name="no_invoice" class="form-control" id="no_invoice" value="{{$rows->no_invoice}}" readonly/>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="exampleInputEmail2" class="col-form-label text-primary">Jenis Satuan</label>
+                                        <label for="exampleInputEmail2" class="col-form-label text-primary">Status Cucian</label>
                                         <select class="form-control" id="exampleInputEmail2" name="status_cucian">
                                             <option value="Diproses" @if($rows->status_cucian == 'Diproses') ? selected : null @endif>Diproses</option>
                                             <option value="Belum Diambil" @if($rows->status_cucian == 'Belum Diambil') ? selected : null @endif>Belum Diambil</option>
