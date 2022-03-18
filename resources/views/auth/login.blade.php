@@ -26,19 +26,18 @@
           <div class="row w-100">
             <div class="col-lg-4 mx-auto">
               <div class="auto-form-wrapper">
-
+              <h4 class="text-primary text-center mb-4">Halaman Login</h4>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-
                         <div class="form-group">
-                            <label class="label">Email</label>
+                            <label class="label text-primary"><strong>Email</strong></label>
                             <div class="input-group">
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                             </div>
                         </div>
 
                         <div class="form-group mt-2">
-                            <label class="label">Kata Sandi</label>
+                            <label class="label text-primary"><strong>Kata Sandi</strong></label>
                             <div class="input-group">
                             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                             </div>

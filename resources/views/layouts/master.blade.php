@@ -20,6 +20,9 @@
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('assets') }}/css/demo_1/style.css">
+    <link rel="stylesheet" href="{{ asset('assets') }}/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="{{ asset('assets') }}/vendors/iconfonts/ionicons/dist/css/ionicons.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <!-- End Layout styles -->
     @stack('style')
     <link rel="shortcut icon" href="{{ asset('assets') }}/images/favicon.ico" />
