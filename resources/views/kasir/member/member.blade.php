@@ -38,7 +38,7 @@
                           <td>{{ ++$i }}</td>
                           <td> {{ $row->nama }} </td>
                           <td> {{ $row->total_paket }} </td>
-                          <td> {{ $row->total_saldo }} </td>
+                          <td> @rupiah($row->total_saldo) </td>
                           <td> {{ $row->total_kg }} Kg</td>
                           <td>  
                             <a class="btn btn-xs btn-primary" href="{{url('kasir/member-kasir/detail/'.$row->id)}}">Detail & Deposit</a>

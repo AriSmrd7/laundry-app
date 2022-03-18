@@ -1,11 +1,11 @@
 @extends('layouts.master')
-@section('title', 'Laundry - Tambah Data Jasa')
+@section('title', 'Laundry - Tambah Data Paket')
 @section('content')
             <div class="row">
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="text-primary">Tambah Data Jasa</h4>
+                    <h4 class="text-primary">Tambah Data Paket</h4>
                         <p class="card-description text-small text-muted">Isi pada form di bawah ini untuk menambahkan data .</p>
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -22,7 +22,7 @@
                         <form class="forms-sample" method="POST" action="{{route('jasa.store')}}">
                         @csrf
                           <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Jasa</label>
+                            <label for="exampleInputEmail1">Nama Paket</label>
                             <input type="text" class="form-control" id="exampleInputEmail1" name="nama_jasa" placeholder="Masukkan nama jasa">
                           </div>
                           <div class="form-group">

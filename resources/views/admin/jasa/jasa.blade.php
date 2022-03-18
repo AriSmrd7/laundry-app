@@ -1,12 +1,12 @@
 @extends('layouts.master')
-@section('title', 'Laundry - Data Jasa')
+@section('title', 'Laundry - Data Paket')
 @section('content')
             <div class="row">
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="text-primary">Data Jasa Cucian</h4>
-                    <p class="card-description text-muted">List data jasa cucian yang ada pada laundry.</p>
+                    <h4 class="text-primary">Data Paket Cucian</h4>
+                    <p class="card-description text-muted">List data paket cucian yang ada pada laundry.</p>
                     <div class="text-right mb-2">
                       <a href="{{route('jasa.create')}}" class="btn btn-success">Tambah Baru</a>
                     </div>

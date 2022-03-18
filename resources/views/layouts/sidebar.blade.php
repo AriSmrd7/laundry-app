@@ -18,7 +18,7 @@
     <li class="nav-item">
       <a class="nav-link" href="{{url('admin/jasa')}}">
         <i class="menu-icon typcn typcn-th-large-outline"></i>
-        <span class="menu-title">Data Jasa</span>
+        <span class="menu-title">Data Paket</span>
       </a>
     </li>
     <li class="nav-item">
@@ -42,7 +42,7 @@
     <li class="nav-item">
       <a class="nav-link" href="{{url('admin/petugas')}}">
         <i class="menu-icon typcn typcn-th-large-outline"></i>
-        <span class="menu-title">Data Petugas</span>
+        <span class="menu-title">Data Kasir</span>
       </a>
     </li>
     @endif

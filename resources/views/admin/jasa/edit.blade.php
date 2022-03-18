@@ -1,11 +1,11 @@
 @extends('layouts.master')
-@section('title', 'Laundry - Ubah Data Jasa')
+@section('title', 'Laundry - Ubah Data Paket')
 @section('content')
             <div class="row">
               <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="text-primary">Ubah Data Jasa</h4>
+                    <h4 class="text-primary">Ubah Data Paket</h4>
                         <p class="card-description text-small text-muted">Update pada form di bawah ini untuk mengubah data .</p>
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -22,7 +22,7 @@
                         @csrf
                         @method('PUT')
                           <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Jasa</label>
+                            <label for="exampleInputEmail1">Nama Paket</label>
                             <input type="text" class="form-control" id="exampleInputEmail1" name="nama_jasa" value="{{$jasa->nama_jasa}}">
                           </div>
                           <div class="form-group">

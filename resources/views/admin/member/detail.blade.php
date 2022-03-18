@@ -63,7 +63,7 @@
                             </tr>
                             <tr>
                               <td class="titles">Total Saldo</td>
-                              <td>{{$rowInfo->total_saldo}}</td>
+                              <td>@rupiah($rowInfo->total_saldo)</td>
                             </tr>
                             <tr>
                               <td class="titles">Jumlah</td>
