@@ -15,6 +15,7 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
+                    <div class="table-responsive">
                     <table class="table table-bordered">
                       <thead>
                         <tr class="table-info">
@@ -48,6 +49,7 @@
                       @endif
                       </tbody>
                     </table>
+                    </div>
                   </div>
                 </div>
               </div>

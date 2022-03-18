@@ -47,7 +47,7 @@
     </li>
     <li class="nav-item">
       <a class="nav-link" href="{{url('admin/laporan')}}">
-        <i class="menu-icon typcn typcn-th-large-outline"></i>
+        <i class="menu-icon mdi mdi-file-multiple"></i>
         <span class="menu-title">Laporan</span>
       </a>
     </li>

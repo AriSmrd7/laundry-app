@@ -7,6 +7,7 @@
                   <div class="card-body">
                     <h4 class="text-primary">Data Kasir</h4>
                     <p class="card-description text-muted">List data kasir yang bertugas di laundry.</p>
+                    <div class="table-responsive">
                     <table class="table table-bordered">
                       <thead>
                         <tr class="table-info text-center">
@@ -48,6 +49,7 @@
                       @endforeach
                       </tbody>
                     </table>
+                    </div>
                   </div>
                 </div>
               </div>
