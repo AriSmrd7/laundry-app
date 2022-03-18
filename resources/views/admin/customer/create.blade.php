@@ -23,16 +23,16 @@
                         @csrf
                           <div class="form-group">
                             <label for="exampleInputEmail1">Nama Pelanggan</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama" placeholder="Masukkan nama pelanggan">
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama" placeholder="Masukkan nama pelanggan" required>
                           </div>
                           <div class="form-group">
                             <label for="exampleInputEmail2">Nomor Hp</label>
-                            <input type="text" class="form-control" id="exampleInputEmail2" name="telepon" maxlength="13" placeholder="Contoh : 085863122231">
+                            <input type="text" class="form-control" id="exampleInputEmail2" name="telepon" maxlength="13" placeholder="Contoh : 085863122231" required>
                             </select>
                           </div>
                           <div class="form-group">
                             <label for="exampleInputEmail3">Alamat Lengkap</label>
-                            <textarea class="form-control" name="alamat" placeholder="Alamat pelanggan"></textarea>
+                            <textarea class="form-control" name="alamat" placeholder="Alamat pelanggan" required></textarea>
                           </div>
                           <button type="submit" class="btn btn-success mr-2">Simpan</button>
                           <button class="btn btn-light">Cancel</button>

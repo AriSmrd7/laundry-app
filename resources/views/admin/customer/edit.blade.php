@@ -23,11 +23,11 @@
                         @method('PUT')
                         <div class="form-group">
                             <label for="exampleInputEmail1">Nama Pelanggan</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama" value="{{$customer->nama}}">
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="nama" value="{{$customer->nama}}" required>
                           </div>
                           <div class="form-group">
                             <label for="exampleInputEmail2">Nomor Hp</label>
-                            <input type="text" class="form-control" id="exampleInputEmail2" name="telepon" maxlength="13" value="{{$customer->telepon}}">
+                            <input type="text" class="form-control" id="exampleInputEmail2" name="telepon" maxlength="13" value="{{$customer->telepon}}" required>
                             </select>
                           </div>
                           <div class="form-group">
