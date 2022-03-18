@@ -41,9 +41,11 @@
                       @endforeach
                       </tbody>
                     </table>
-                    </div>
-                    <div class="row text-center">
-                        {!! $pewangi->links() !!}
+                      <div class="col-md-12">
+                        <div class="row text-center">
+                          {{$pewangi->links("pagination::bootstrap-5")}}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
