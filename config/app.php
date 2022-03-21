@@ -195,7 +195,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // ...
 		'DataTables' => Yajra\DataTables\Facades\DataTables::class,
-
+        'Carbon' => 'Carbon\Carbon',
     ])->toArray(),
 
 ];

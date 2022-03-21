@@ -12,12 +12,24 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
+                    <a href="{{route('transaksi.index')}}" class="btn btn-outline-success" style="float: left;">Reload Data</a>
+                    <div class="mb-2" style="float:right;">
+                        <form action="{{route('transaksi.search')}}" method="GET">
+                          <div class="input-group input-group-sm mb-3">
+                            <input type="search" name="cari" class="form-control" placeholder="Cari . . ." value="{{ old('cari') }}" required aria-required="Isi dulu datanya">
+                            <div class="input-group-append">
+                              <input type="submit" class="btn btn-sm btn-primary" value="CARI">
+                            </div>
+                          </div>
+                        </form>
+                    </div>
                     <div class="table-responsive">
                     <table class="table table-bordered">
                       <thead>
                         <tr class="table-info">
                           <th width="1%"> No </th>
                           <th> No. Invoice </th>
+                          <th> Nama </th>
                           <th> Tanggal Masuk </th>
                           <th> Tagihan </th>
                           <th> Total Bayar </th>
@@ -31,6 +43,7 @@
                         <tr>
                           <td>{{ ++$i }}</td>
                           <td> {{ $row->no_invoice }} </td>
+                          <td> {{ $row->nama }} </td>
                           <td> {{ $row->tgl_masuk }} </td>
                           <td> {{ $row->total_trx }} </td>
                           <td> {{ $row->bayar }} </td>
@@ -43,9 +56,11 @@
                       @endforeach
                       </tbody>
                     </table>
-                    </div>
-                    <div class="row text-center">
-                        
+                      <div class="col-md-12">
+                        <div class="row text-center">
+                          {{$transaksi->links("pagination::bootstrap-5")}}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

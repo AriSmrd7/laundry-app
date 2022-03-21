@@ -56,6 +56,8 @@ Route::group(['prefix'=>'kasir'], function () {
 
     Route::resource('order', App\Http\Controllers\Kasir\OrderController::class);
 
+    Route::get('/validate_order', [App\Http\Controllers\Kasir\OrderController::class, 'validateOrder'])->name('validateOrder');
+    
     Route::get('/check_member/{id}', [App\Http\Controllers\Kasir\OrderController::class, 'checkMember'])->name('checkMember');
 
     Route::get('/sisa_member/{id}/{paket}', [App\Http\Controllers\Kasir\OrderController::class, 'sisaMember'])->name('sisaMember');
@@ -65,6 +67,7 @@ Route::group(['prefix'=>'kasir'], function () {
     Route::post('/create_invoice', [App\Http\Controllers\Kasir\OrderController::class, 'createInvoice'])->name('create_invoice');
     Route::get('/delete_order/{id}', [App\Http\Controllers\Kasir\OrderController::class, 'deleteOrder'])->name('delete_order');
     
+    Route::get('/transaksi/cari/', [App\Http\Controllers\Kasir\TransaksiController::class, 'searchInvoice'])->name('transaksi.search');
     Route::get('/transaksi/invoice/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'checkInvoice'])->name('transaksi.invoice');
     Route::post('/transaksi/updateinvoice/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'updateInvoice'])->name('transaksi.updateinvoice');
 

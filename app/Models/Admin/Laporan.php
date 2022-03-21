@@ -4,7 +4,7 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class Laporan extends Model
 {
     use HasFactory;
@@ -24,4 +24,5 @@ class Laporan extends Model
         'tgl_selesai',
         'name',
     ];
+
 }

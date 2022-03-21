@@ -49,6 +49,11 @@
                       @endif
                       </tbody>
                     </table>
+                      <div class="col-md-12">
+                        <div class="row text-center">
+                          {{$members->links("pagination::bootstrap-5")}}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

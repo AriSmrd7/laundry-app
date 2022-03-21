@@ -4,6 +4,7 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Transaksi extends Model
 {
@@ -17,7 +18,13 @@ class Transaksi extends Model
         'id_petugas',
         'total_trx',
         'bayar',
+        'utang',
         'kembalian',
         'status',
     ];
+
+    public function scopeBetween($query, Carbon $from, Carbon $to)
+    {
+        $query->whereBetween('created_at', [$from, $to]);
+    }
 }

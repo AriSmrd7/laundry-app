@@ -18,4 +18,13 @@ class Member extends Model
         'total_saldo',
         'total_kg',
     ];
+
+    public function memberChecks($id){
+        $member = Member::select('id_pelanggan')
+                                ->where('id_pelanggan',$id)
+                                ->exists();
+        return $member;
+    }
+
+    
 }

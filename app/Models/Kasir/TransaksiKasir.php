@@ -17,6 +17,7 @@ class TransaksiKasir extends Model
         'id_petugas',
         'total_trx',
         'bayar',
+        'utang',
         'kembalian',
         'status',
     ];

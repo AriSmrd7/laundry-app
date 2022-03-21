@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Kasir;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Transaksi;
 use App\Models\Kasir\Order;
 use App\Models\Kasir\OrderDetail;
 use App\Models\Kasir\OrderTemp;
@@ -26,11 +25,12 @@ class TransaksiController extends Controller
         $transaksi = DB::table('tb_transaksi')
                         ->select('*')
                         ->join('tb_order', 'tb_transaksi.no_invoice', '=', 'tb_order.id')
+                        ->join('tb_pelanggan', 'tb_order.id_pelanggan', '=', 'tb_pelanggan.id_pelanggan')
                         ->where('tb_transaksi.id_petugas',Auth::user()->id)
-                        ->get();        
+                        ->paginate(10);        
     
         return view('kasir.transaksi.transaksi',compact('transaksi'))
-                        ->with('i', (request()->input('page', 1) - 1) * 5);  
+                        ->with('i', (request()->input('page', 1) - 1) * 10);  
     }
 
     public function payOrder($id){
@@ -100,4 +100,29 @@ class TransaksiController extends Controller
       
         return redirect()->route('transaksi.invoice',$noInvoice);
     }
+
+    public function searchInvoice(Request $request)
+	{
+		// menangkap data pencarian
+		$cari = $request->cari;
+ 
+    		// mengambil data dari table pegawai sesuai pencarian data
+
+        $transaksi = DB::table('tb_transaksi')
+                        ->select('*')
+                        ->join('tb_order', 'tb_transaksi.no_invoice', '=', 'tb_order.id')
+                        ->join('tb_pelanggan', 'tb_order.id_pelanggan', '=', 'tb_pelanggan.id_pelanggan')
+                        ->where('tb_transaksi.id_petugas',Auth::user()->id)
+                        ->where('no_invoice','like',"%".$cari."%")
+                        ->orWhere('nama','like',"%".$cari."%")
+                        ->orWhere('total_trx','like',"%".$cari."%")
+                        ->orWhere('bayar','like',"%".$cari."%")
+                        ->orWhere('status','like',"%".$cari."%")
+                        ->orWhere('status_cucian','like',"%".$cari."%")
+                        ->paginate();
+ 
+    		// mengirim data pegawai ke view index
+		return view('kasir.transaksi.transaksi',['transaksi' => $transaksi])->with('i');
+ 
+	}
 }

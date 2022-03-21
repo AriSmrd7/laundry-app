@@ -4,6 +4,7 @@ namespace App\Models\Kasir;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class OrderTemp extends Model
 {
@@ -22,4 +23,49 @@ class OrderTemp extends Model
         'jumlah',
         'subtotal',
     ];
+
+
+    public function memberValid(){
+        $temp = OrderTemp::select('tb_order_temp.no_invoice', 'tb_order_temp.id_jasa', 'tb_order_temp.nama_jasa', 'tb_order_temp.id_pelanggan', 'tb_order_temp.satuan', 'tb_order_temp.harga', 'tb_order_temp.jumlah', 'tb_order_temp.subtotal')
+                        ->leftJoin('tb_member_detail', function ($join) {
+                            $join->on('tb_order_temp.id_pelanggan', '=', 'tb_member_detail.id_pelanggan')
+                                 ->on('tb_order_temp.id_jasa', '=','tb_member_detail.id_jasa');
+                        })
+                        ->whereNotNull('tb_member_detail.id_jasa')
+                        ->whereNotNull('tb_member_detail.id_pelanggan')
+                        ->get();
+        return $temp;
+    }
+
+    public function autopayMember(){
+        $temp = OrderTemp::select(DB::raw('sum(tb_order_temp.subtotal) as totallunas'))
+                        ->leftJoin('tb_member_detail', function ($join) {
+                            $join->on('tb_order_temp.id_pelanggan', '=', 'tb_member_detail.id_pelanggan')
+                                 ->on('tb_order_temp.id_jasa', '=','tb_member_detail.id_jasa');
+                        })
+                        ->whereNotNull('tb_member_detail.id_jasa')
+                        ->whereNotNull('tb_member_detail.id_pelanggan')
+                        ->first();
+        return $temp;
+    }
+
+    public function creditMember(){
+        $temp = OrderTemp::select(DB::raw('sum(tb_order_temp.subtotal) as totalutang'))
+                          ->first();
+        return $temp;
+    }
+
+    public function notpaidMember($bayarMember, $tagihanMember){
+        $temp = $tagihanMember - $bayarMember;
+        return $temp;
+    }
+
+    
+    public function orderChecks(){
+        $check = OrderTemp::select('*')->exists();
+        return $check;
+    }
+
+
+
 }

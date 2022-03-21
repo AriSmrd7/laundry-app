@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Kasir;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Member;
+use App\Models\Kasir\Member;
 use App\Models\Kasir\MemberDetail;
 use App\Models\Kasir\Order;
 use App\Models\Kasir\OrderDetail;
@@ -16,6 +16,7 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Response;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\Validator;
 
 class OrderController extends Controller
 {
@@ -52,10 +53,29 @@ class OrderController extends Controller
                    
         $prefix = 'INV-';
         $noinvoice = IdGenerator::generate(['table' => 'tb_order', 'length' => 9, 'prefix' =>$prefix]);
-             
+        
+        //$check = new OrderTemp();
+        //$sudahbayar = $check->autopayMember();
+        //$totaltagihan = $check->creditMember();
+
+        //$bayarMember = $sudahbayar->totallunas;
+        //$tagihanMember = $totaltagihan->totalutang;
+
+        //$utangMember = $check->notpaidMember($bayarMember,$tagihanMember);
+
+        //return response()->json($utangMember);
+        //exit;
                                 
         return view('kasir.order.order',compact('order','pelanggan','jasa','pewangi','ordertemp','ordertotal','noinvoice'))
             ->with('i', (request()->input('page', 1) - 1) * 5);        
+    }
+
+    
+    public function validateOrder() {
+        $validate = new OrderTemp();
+        $checks = $validate->orderChecks();
+
+        return Response::json($checks);
     }
 
     public function insertOrder(Request $request){
@@ -134,6 +154,7 @@ class OrderController extends Controller
         $noInvoice = $request->no_invoice;
         $date = $request->tgl_selesai;
         $tgl_selesai = Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y');
+        $idPelanggans = $request->id_pelanggan;
 
         $order = New Order();
         $order->id = $noInvoice;
@@ -144,18 +165,28 @@ class OrderController extends Controller
         $order->jml_paket = $jmlPaket;
         $order->total_harga = $totalHarga;
         $order->id_pewangi = $request->id_pewangi;
-        $order->id_pelanggan = $request->id_pelanggan;
+        $order->id_pelanggan = $idPelanggans;
         $order->id_petugas = Auth::user()->id;
         $order->status_cucian = 'Diproses';
         $order->save();
 
+        $check = new Member();
+        $trueMember = $check->memberChecks($idPelanggans);
+
         $transaksi = New TransaksiKasir();
+        if($trueMember)
+        {
+            $transaksi->status = 'LUNAS';
+        }
+        else
+        {
+            $transaksi->status = 'BELUM LUNAS';
+        }
         $transaksi->no_invoice = $noInvoice;
         $transaksi->id_petugas = Auth::user()->id;
         $transaksi->total_trx = $totalHarga;
         $transaksi->bayar = 0;
         $transaksi->kembalian = 0;
-        $transaksi->status = 'BELUM LUNAS';
         $transaksi->save();
 
         return redirect()->route('transaksi.invoice',$noInvoice);
