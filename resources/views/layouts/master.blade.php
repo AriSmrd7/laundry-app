@@ -58,6 +58,7 @@
     @stack('plugin-scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" type="text/javascript"></script>
 
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
     <script src="{{ asset('assets') }}/vendors/js/vendor.bundle.base.js"></script>
     <script src="{{ asset('assets') }}/vendors/js/vendor.bundle.addons.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>

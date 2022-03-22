@@ -24,6 +24,7 @@ class OrderController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('role:ROLE_KASIR');
+
     }
     /**
      * Display a listing of the resource.
@@ -32,6 +33,10 @@ class OrderController extends Controller
      */
     public function index()
     {
+
+        $tempcache = OrderTemp::select('*')->get();
+        OrderTemp::destroy($tempcache->pluck('id_temp')->toArray());
+
         $order = Order::latest()->paginate(5);
         $pelanggan = DB::table('tb_pelanggan')
                         ->select('*')
@@ -54,18 +59,6 @@ class OrderController extends Controller
         $prefix = 'INV-';
         $noinvoice = IdGenerator::generate(['table' => 'tb_order', 'length' => 9, 'prefix' =>$prefix]);
         
-        //$check = new OrderTemp();
-        //$sudahbayar = $check->autopayMember();
-        //$totaltagihan = $check->creditMember();
-
-        //$bayarMember = $sudahbayar->totallunas;
-        //$tagihanMember = $totaltagihan->totalutang;
-
-        //$utangMember = $check->notpaidMember($bayarMember,$tagihanMember);
-
-        //return response()->json($utangMember);
-        //exit;
-                                
         return view('kasir.order.order',compact('order','pelanggan','jasa','pewangi','ordertemp','ordertotal','noinvoice'))
             ->with('i', (request()->input('page', 1) - 1) * 5);        
     }
@@ -84,8 +77,9 @@ class OrderController extends Controller
         $idJasa = $request->id_jasa;
         $idPelanggan = $request->id_pelanggan;
         $jumlahKg = $request->jumlah;
+        $sisaKg = $request->sisa_kg;
         $subtotal = $request->subtotal;
-
+        
         $orders = DB::select( DB::raw("SELECT * FROM tb_order_temp WHERE id_jasa = :jasaId AND id_pelanggan = :pelangganId"), array(
             'jasaId' => $idJasa,
             'pelangganId' => $idPelanggan,
@@ -149,7 +143,6 @@ class OrderController extends Controller
             ];
         }
         OrderDetail::insert($allOrders);
-        OrderTemp::query()->truncate();
 
         $noInvoice = $request->no_invoice;
         $date = $request->tgl_selesai;
@@ -173,21 +166,37 @@ class OrderController extends Controller
         $check = new Member();
         $trueMember = $check->memberChecks($idPelanggans);
 
+        $saldoMember = new OrderTemp();
+        $lunasMember = $saldoMember->autopayMember();
+        $tagihanMember = $saldoMember->creditMember();
+        $utangMember = $saldoMember->notpaidMember($lunasMember,$tagihanMember);
+
         $transaksi = New TransaksiKasir();
         if($trueMember)
         {
-            $transaksi->status = 'LUNAS';
+            $transaksi->utang = $utangMember;
+            $transaksi->bayar = $lunasMember;
+            if($utangMember >= 0){
+                $transaksi->status = 'BELUM LUNAS';
+            }
+            else{
+                $transaksi->status = 'LUNAS';
+            }
         }
         else
         {
             $transaksi->status = 'BELUM LUNAS';
+            $transaksi->utang = 0;
+            $transaksi->bayar = 0 ;
         }
         $transaksi->no_invoice = $noInvoice;
         $transaksi->id_petugas = Auth::user()->id;
         $transaksi->total_trx = $totalHarga;
-        $transaksi->bayar = 0;
         $transaksi->kembalian = 0;
         $transaksi->save();
+
+        OrderTemp::query()->truncate();
+
 
         return redirect()->route('transaksi.invoice',$noInvoice);
 

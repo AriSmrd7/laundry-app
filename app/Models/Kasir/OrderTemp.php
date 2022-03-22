@@ -46,13 +46,13 @@ class OrderTemp extends Model
                         ->whereNotNull('tb_member_detail.id_jasa')
                         ->whereNotNull('tb_member_detail.id_pelanggan')
                         ->first();
-        return $temp;
+        return $temp->totallunas;
     }
 
     public function creditMember(){
-        $temp = OrderTemp::select(DB::raw('sum(tb_order_temp.subtotal) as totalutang'))
+        $temp = OrderTemp::select(DB::raw('sum(tb_order_temp.subtotal) as totaltagihan'))
                           ->first();
-        return $temp;
+        return $temp->totaltagihan;
     }
 
     public function notpaidMember($bayarMember, $tagihanMember){
@@ -66,6 +66,19 @@ class OrderTemp extends Model
         return $check;
     }
 
+    public function memberChecks($idPelanggan){
+        $check = MemberDetail::select('*')
+                ->where('tb_member_detail.id_pelanggan','=',$idPelanggan)
+                ->exists();
+        return $check;
+    }
 
+    public function checkSaldo($idPelanggan, $idJasa){
+        $temp = MemberDetail::select(DB::raw('tb_member_detail.subtotal_kg as sisakg'))
+                        ->where('tb_member_detail.id_jasa','=',$idJasa)
+                        ->where('tb_member_detail.id_pelanggan','=',$idPelanggan)
+                        ->first();    
+        return $temp->sisakg;
+    }
 
 }

@@ -57,11 +57,11 @@ Route::group(['prefix'=>'kasir'], function () {
     Route::resource('order', App\Http\Controllers\Kasir\OrderController::class);
 
     Route::get('/validate_order', [App\Http\Controllers\Kasir\OrderController::class, 'validateOrder'])->name('validateOrder');
+    Route::get('/clean_cart', [App\Http\Controllers\Kasir\OrderController::class, 'cleanCart'])->name('cleanCart');
     
     Route::get('/check_member/{id}', [App\Http\Controllers\Kasir\OrderController::class, 'checkMember'])->name('checkMember');
 
     Route::get('/sisa_member/{id}/{paket}', [App\Http\Controllers\Kasir\OrderController::class, 'sisaMember'])->name('sisaMember');
-
 
     Route::post('/insert_order', [App\Http\Controllers\Kasir\OrderController::class, 'insertOrder'])->name('insert_order');
     Route::post('/create_invoice', [App\Http\Controllers\Kasir\OrderController::class, 'createInvoice'])->name('create_invoice');

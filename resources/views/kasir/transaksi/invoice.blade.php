@@ -63,7 +63,7 @@
                             <tr class="table-info">
                               <td>Nama Paket</td>
                               <td>Jumlah</td>
-                              <td>Harga/Paket</th>
+                              <td>Harga/Kg</th>
                               <td>Subtotal</td>
                             </tr>
                           </thead>
@@ -72,13 +72,13 @@
                             <tr>
                               <td>{{$rowDetails->nama_jasa}}</td>
                               <td>{{$rowDetails->jumlah}} {{$rowDetails->satuan}}</td>
-                              <td>{{$rowDetails->harga}}</td>
-                              <td>{{$rowDetails->subtotal}}</td>
+                              <td>@rupiah($rowDetails->harga)</td>
+                              <td>@rupiah($rowDetails->subtotal)</td>
                             </tr>
                           @endforeach
                             <tr class="table-info">
-                              <td colspan="3" class="text-right">TOTAL HARGA</td>
-                              <td class="text-primary">{{$checks->total_harga}}</td>
+                              <td colspan="3" class="text-right">TOTAL TAGIHAN</td>
+                              <td class="text-primary">@rupiah($checks->total_harga)</td>
                             </tr>
                             <tr>
                               <td>Status Cucian</td>
@@ -91,11 +91,24 @@
                             @if($checks->status == 'LUNAS')
                             <tr>
                               <td>Uang yang Dibayar</td>
-                              <td colspan="3" class="text-left text-primary">{{$checks->bayar}}</td>
+                              <td colspan="3" class="text-left text-primary">@rupiah($checks->bayar)</td>
                             </tr>
                             <tr>
                               <td>Kembalian</td>
-                              <td colspan="3" class="text-left text-primary">{{$checks->kembalian}}</td>
+                              <td colspan="3" class="text-left text-primary">@rupiah($checks->kembalian)</td>
+                            </tr>
+                            @else
+                            <tr>
+                              <td>Uang yang Dibayar</td>
+                              <td colspan="3" class="text-left text-primary">@rupiah($checks->bayar)</td>
+                            </tr>
+                            <tr>
+                              <td>Utang</td>
+                              <td colspan="3" class="text-left text-primary">@rupiah($checks->utang)</td>
+                            </tr>
+                            <tr>
+                              <td>Kembalian</td>
+                              <td colspan="3" class="text-left text-primary">@rupiah($checks->kembalian)</td>
                             </tr>
                             @endif
                           </tbody>

@@ -86,7 +86,6 @@
                             <div class="col-sm-11">
                               <label for="pewangi" class="col-form-label text-primary">Pewangi</label>
                               <select name="id_pewangi" id="id_pewangi" class="form-control js-example-basic-single3 required">
-                                <option value="notpewangi"><i>--Pilih--</i></option>
                                 @foreach($pewangi as $pewangis)
                                 <option value="{{$pewangis->id_pewangi}}">{{$pewangis->nama_pewangi}}</option>
                                 @endforeach
@@ -182,6 +181,7 @@
                             <div class="col-sm-12">
                               <label for="jumlah" class="col-form-label text-primary">Jumlah</label>
                               <input type="text" name="jumlah" maxlength="10" class="form-control" id="jumlah" placeholder="0" required />
+                              <span id="errorsisa" style="display: none;font-size: 11px;color: red;">Saldo member tidak cukup</span>
                             </div>
                           </div>
                         </div>
@@ -266,6 +266,7 @@
     $('.js-example-basic-single').select2();
     $('.js-example-basic-single2').select2();
     $('.js-example-basic-single3').select2();
+    
   });
   
   $("select").on("select2:close", function (e) {
@@ -275,6 +276,7 @@
   $('#jumlah').on('input', function() {
     this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
   });
+
 
   $('#id_pelanggan').on('change',function(e){
     e.preventDefault();
@@ -417,6 +419,7 @@
         let satuan = $('#satuan').val();
         let harga = $('#harga').val();
         let jumlah = $('#jumlah').val();
+        let sisa_kg = $('#sisa_kg').val();
         let subtotal = $('#subtotal').val();
 
         $.ajax({
@@ -470,7 +473,7 @@
               position: 'center',
               icon: 'error',
               title: 'Error',
-              text: 'Mohon lengkapi semua data diatas terlebih dahulu!',
+              text: 'Mohon lengkapi data dengan benar!',
               showConfirmButton: true,
               confirmButtonColor: '#3085d6'
             })  
