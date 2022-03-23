@@ -14,6 +14,8 @@
                     @endforeach                  
                         <form method="POST" action="{{ route('transaksi.updatebayar',$bayars->id_transaksi) }}">
                             @csrf
+                            @if(!$member)
+                            <input type="hidden" name="utang2" class="form-control" id="utang2" value="0" readonly/> 
                             <div class="col-md-8">
                                 <div class="form-group row">
                                     <div class="col-md-4">
@@ -21,8 +23,8 @@
                                         <input type="text" name="no_invoice" class="form-control" id="no_invoice" value="{{$bayars->no_invoice}}" readonly/>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="satuan" class="col-form-label text-primary">Jumlah yang Harus Dibayar</label>
-                                        <input type="text" name="totalharga" class="form-control" id="totalharga" value="{{$bayars->total_trx}}" readonly/> 
+                                        <label for="satuan" class="col-form-label text-primary">Jumlah Tagihan</label>
+                                        <input type="text" name="totalharga" class="form-control" id="totalharga2" value="{{$bayars->total_trx}}" readonly/> 
                                     </div>
                                 </div>
                             </div>
@@ -30,18 +32,60 @@
                                 <div class="form-group row">
                                     <div class="col-md-4">
                                         <label for="satuan" class="col-form-label text-primary">Uang yang Dibayarkan</label>
-                                        <input type="text" name="bayar" class="form-control" id="bayar" onkeypress="return onlyNumber(event, false)"/>     
+                                        <input type="number" name="bayar2" class="form-control" id="bayar2" onkeypress="return onlyNumber(event, false)"  min="0"/>     
                                     </div>
                                     <div class="col-md-4">
                                         <label for="satuan" class="col-form-label text-primary">Kembalian</label>
-                                        <input type="text" name="kembalian" class="form-control" id="kembalian" readonly/>
+                                        <input type="text" name="kembalian2" class="form-control" id="kembalian2" readonly/>
+                                        <input type="hidden" name="id_pelanggan" class="form-control" value="{{$bayars->id_pelanggan}}"> 
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <a href="{{ route('transaksi.invoice',$bayars->no_invoice) }}" class="btn btn-lg btn-dark">KEMBALI</a>
-                                <button type="submit" class="btn btn-lg btn-primary">BAYAR</button>
+                                <button type="submit" class="btn btn-lg btn-primary" id="btnBayar2">BAYAR</button>
                             </div>
+                            @else
+                            <div class="col-md-8">
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <label for="satuan" class="col-form-label text-primary">Nomor Invoice</label>
+                                        <input type="text" name="no_invoice" class="form-control" id="no_invoice" value="{{$bayars->no_invoice}}" readonly/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="satuan" class="col-form-label text-primary">Jumlah Tagihan</label>
+                                        <input type="text" name="totalharga" class="form-control" id="totalharga" value="{{$bayars->total_trx}}" readonly/> 
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="satuan" class="col-form-label text-primary">Sudah Dibayar</label>
+                                        <input type="text" name="lunas" class="form-control" id="lunas" value="{{$bayars->bayar}}" readonly/> 
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="satuan" class="col-form-label text-primary">Sisa Utang</label>
+                                        <input type="text" name="utang" class="form-control" id="utang" value="{{$bayars->utang}}" readonly/> 
+                                        <input type="hidden" name="utanglunas" id="utanglunas" value="0"> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <label for="satuan" class="col-form-label text-primary">Uang yang Dibayarkan</label>
+                                        <input type="number" name="bayar" class="form-control" id="bayar" onkeypress="return onlyNumber(event, false)"  min="0"/>     
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="satuan" class="col-form-label text-primary">Kembalian</label>
+                                        <input type="text" name="kembalian" class="form-control" id="kembalian" readonly/>
+                                        <input type="hidden" name="id_pelanggan" class="form-control" value="{{$bayars->id_pelanggan}}"> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <a href="{{ route('transaksi.invoice',$bayars->no_invoice) }}" class="btn btn-lg btn-dark">KEMBALI</a>
+                                <button type="submit" class="btn btn-lg btn-primary" id="btnBayar">BAYAR</button>
+                            </div>
+                            @endif
+
                         </form>
                   </div>
                 </div>
@@ -75,11 +119,41 @@
 
 </script>
 <script>
-    $('#bayar').on('keyup', function() {
-        var total = $('#totalharga').val();
-        var bayar = $('#bayar').val();
-        var kembalian = bayar - total;
-        $('#kembalian').val(kembalian);    
+    $(document).ready(function(){
+
+        if($('#utang').val() !== 0 || $('utang').val() !== ''){
+            var bayar = $("#bayar");
+            $('#btnBayar').prop('disabled', true);
+            bayar.on('change keyup', function() {            
+                if(bayar.val() < 0 || bayar.val() !== ''){
+                    var kembalian = isNaN(parseFloat(bayar.val() - $("#utang").val())) ? 0 :(bayar.val() - $("#utang").val())
+                    $("#kembalian").val(kembalian);
+                    $('#btnBayar').prop('disabled', false);
+                    if (parseFloat(bayar.val()) < parseFloat($("#utang").val())){
+                        $('#btnBayar').prop('disabled', true);
+                    }
+                }
+            });
+        }
+
+
+        
+        if($('#utang2').val() == 0 || $('utang2').val() == ''){
+            var bayar = $("#bayar2");
+            $('#btnBayar2').prop('disabled', true);
+            bayar.on('change keyup', function() {            
+                if(bayar.val() < 0 || bayar.val() !== ''){
+                    var kembalian = isNaN(parseFloat(bayar.val() - $("#totalharga2").val())) ? 0 :(bayar.val() - $("#totalharga2").val())
+                    $("#kembalian2").val(kembalian);
+                    $('#btnBayar2').prop('disabled', false);
+                    if (parseFloat(bayar.val()) < parseFloat($("#totalharga2").val())){
+                        $('#btnBayar2').prop('disabled', true);
+                    }
+                }
+            });
+        }
+
+        
     });
 </script>
 @endpush

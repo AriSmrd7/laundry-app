@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Kasir;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kasir\Member;
 use App\Models\Kasir\Order;
 use App\Models\Kasir\OrderDetail;
 use App\Models\Kasir\OrderTemp;
@@ -35,26 +36,57 @@ class TransaksiController extends Controller
 
     public function payOrder($id){
         $bayar = DB::table('tb_transaksi')
-                        ->select('tb_transaksi.no_invoice','tb_transaksi.total_trx','tb_transaksi.id_transaksi')
+                        ->select('tb_transaksi.no_invoice','tb_transaksi.total_trx','tb_transaksi.bayar','tb_transaksi.utang','tb_transaksi.id_transaksi','tb_order.id_pelanggan')
                         ->join('tb_order', 'tb_transaksi.no_invoice', '=', 'tb_order.id')
                         ->where('tb_transaksi.no_invoice','=',$id)
                         ->get();            
-        return view('kasir.transaksi.bayar',compact('bayar'));
+        $idm = TransaksiKasir::select('tb_order.id_pelanggan')
+                            ->join('tb_order', 'tb_transaksi.no_invoice', '=', 'tb_order.id')
+                            ->join('tb_member', 'tb_order.id_pelanggan', '=', 'tb_member.id_pelanggan')
+                            ->where('tb_transaksi.no_invoice','=',$id)
+                            ->exists();
+
+        $r = new Member();
+        $member = $r->memberChecks($idm);
+
+        return view('kasir.transaksi.bayar',compact('bayar','member'));
     }
 
     public function updateOrder(Request $request, $id_transaksi)
     {
         $noInvoice = $request->no_invoice;
+        $idPel = $request->id_pelanggan;
+        $lunas = $request->lunas;
+        $utang = $request->utang;
         $bayar = $request->bayar;
         $kembalian = $request->kembalian;
+        $bayar2 = $request->bayar2;
+        $kembalian2 = $request->kembalian2;
+        $sisa = 0;
+
         $status = 'LUNAS';
 
-        TransaksiKasir::where('id_transaksi', $id_transaksi)
-                ->update([
-                    'bayar' => $bayar,
-                    'kembalian' => $kembalian,
-                    'status' => $status
-                ]);
+        $r = new Member();
+        $member = $r->memberChecks($idPel);
+
+        if($member){
+            TransaksiKasir::where('id_transaksi', $id_transaksi)
+            ->update([
+                'bayar' => $bayar + $lunas,
+                'utang' => 0,
+                'kembalian' => $kembalian,
+                'status' => $status
+            ]);
+        }
+        else{
+            TransaksiKasir::where('id_transaksi', $id_transaksi)
+            ->update([
+                'bayar' => $bayar2,
+                'kembalian' => $kembalian2,
+                'status' => $status
+            ]);
+        }
+
       
         return redirect()->route('transaksi.invoice',$noInvoice);
     }
