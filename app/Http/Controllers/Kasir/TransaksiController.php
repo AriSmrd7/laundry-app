@@ -157,4 +157,17 @@ class TransaksiController extends Controller
 		return view('kasir.transaksi.transaksi',['transaksi' => $transaksi])->with('i');
  
 	}
+
+    public function deleteInvoice($id){
+        if($id !== '' OR $id !== NULL){
+            TransaksiKasir::where('no_invoice',$id)->delete();
+            Order::where('id',$id)->delete();
+            OrderDetail::where('no_invoice',$id)->delete();
+
+            return redirect()->route('transaksi.index')->with('success','Data transaksi berhasil dihapus');    
+        }
+        else{
+            return redirect()->route('transaksi.index')->with('error','Data gagal dihapus');    
+        }
+    }
 }

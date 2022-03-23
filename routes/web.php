@@ -70,6 +70,7 @@ Route::group(['prefix'=>'kasir'], function () {
     
     Route::get('/transaksi/cari/', [App\Http\Controllers\Kasir\TransaksiController::class, 'searchInvoice'])->name('transaksi.search');
     Route::get('/transaksi/invoice/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'checkInvoice'])->name('transaksi.invoice');
+    Route::get('/transaksi/invoice/{id}/delete', [App\Http\Controllers\Kasir\TransaksiController::class, 'deleteInvoice'])->name('transaksi.delete');
     Route::post('/transaksi/updateinvoice/{id}', [App\Http\Controllers\Kasir\TransaksiController::class, 'updateInvoice'])->name('transaksi.updateinvoice');
 
     Route::get('/transaksi', [App\Http\Controllers\Kasir\TransaksiController::class, 'index'])->name('transaksi.index');

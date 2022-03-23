@@ -17,11 +17,18 @@
               <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="text-primary">Invoice Orderan</h4>
-                    <p class="card-description text-muted">Halaman ini digunakan untuk mengubah status invoice.</p>                    
-                    <div>
+                    <h4 class="text-primary">Detail Orderan</h4>
+                    <p class="card-description text-muted">Halaman ini digunakan untuk mengubah status invoice.</p>    
                     @foreach($check as $checks)
                     @endforeach
+                    <div class="col-md-12 mb-3">
+                      <div class="text-right">
+                        <a href="{{route('transaksi.delete',$checks->no_invoice)}}" class="btn btn-outline-danger btn-md" onclick="return confirm('Yakin akan menghapus order ini?');">
+                          HAPUS
+                        </a>
+                      </div>
+                    </div>                
+                    <div>
                       <table class="table table-bordered table100 invFormat">
                           <thead>
                             <tr>

@@ -12,7 +12,7 @@
                             <p>{{ $message }}</p>
                         </div>
                     @endif
-                    <a href="{{route('transaksi.index')}}" class="btn btn-outline-success" style="float: left;">Reload Data</a>
+                    <a href="{{route('transaksi.index')}}" class="btn btn-outline-success" style="float: left;">REFRESH</a>
                     <div class="mb-2" style="float:right;">
                         <form action="{{route('transaksi.search')}}" method="GET">
                           <div class="input-group input-group-sm mb-3">
