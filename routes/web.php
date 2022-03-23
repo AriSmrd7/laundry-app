@@ -49,6 +49,7 @@ Route::group(['prefix'=>'admin'], function () {
     Route::get('/member/{id}/delete', [App\Http\Controllers\Admin\MemberController::class, 'delMember'])->name('members.delmember');
 
     Route::get('/laporan', [App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/get_laporan', [App\Http\Controllers\Admin\LaporanController::class, 'getLaporan'])->name('laporan.getLaporan');
 
 });
 

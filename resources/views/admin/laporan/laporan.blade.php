@@ -9,6 +9,21 @@
                     <p class="card-description text-muted">Data dibawah merupakan seluruh transaksi yang berhasil dan sudah selesai..</p>
 
                     <div class="container">
+                          <div class="row mb-5 mt-2"> 
+                            <div class="col-md-5">
+                              <div class="input-group input-daterange">
+                                  <input type="text" class="form-control" name="from_date" id="from_date" placeholder="hh/bb/tttt">
+                                  <div class="input-group-addon">&nbsp;
+                                    <strong class="text-muted">sampai</strong> &nbsp;
+                                  </div>
+                                  <input type="text" class="form-control" name="to_date" id="to_date" placeholder="hh/bb/tttt">
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <button class="btn btn-primary btn-sm" id="filterTbl">Filter</button>
+                              <button class="btn btn-outline-dark btn-sm" id="refreshTbl">Refresh</button>
+                            </div>
+                          </div>
                       <div class="row">
                         <div class="col-md-12">
                           <div class="table-responsive">
@@ -63,8 +78,22 @@
 @endsection
 @push('custom-scripts')
 <script type="text/javascript">
-    $(document).ready(function() {
+      $(document).ready(function() {
+        $('.input-daterange input').each(function() {
+          $(this).datepicker({
+            format:'yyyy-mm-dd',
+            separator: " sampai ",
+            autoclose:true
+          }); 
+        $(this).datepicker('clearDates');    
+      });
+      
+      load_data();
+
+      function load_data(from_date = '', to_date = ''){
           $('#tableLap').DataTable({
+              dom: "Bfrtip",
+              "oSearch": {"bSmart": false},
               processing: true,
               serverSide: true,
               lengthMenu: [ [ 15, 30, 50, -1 ], [ 15, 30, 50, "All" ] ],
@@ -73,7 +102,10 @@
               language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/id.json'
               },
-              ajax: "/admin/laporan",
+              ajax: {
+                  url : "/admin/laporan/get_laporan",
+                  data:{from_date:from_date, to_date:to_date}
+                },
               columns: [
                   {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                   {data: 'no_invoice', name: 'no_invoice'},
@@ -132,6 +164,29 @@
                   );
               }
           });
+        }
+
+
+        $('#filterTbl').click(function(e){
+          e.preventDefault();
+          var from_date = $('#from_date').val();
+          var to_date = $('#to_date').val();
+            if(from_date != '' &&  to_date != ''){
+              $('#tableLap').DataTable().destroy();
+              load_data(from_date, to_date);
+            }
+            else{
+              alert('Pilih kedua calendar');
+            }
+        });
+
+        $('#refreshTbl').click(function(){
+          $('#from_date').val('');
+          $('#to_date').val('');
+          $('#tableLap').DataTable().destroy();
+          load_data();
+        });
+
      });
 </script>
 @endpush
