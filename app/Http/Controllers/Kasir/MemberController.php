@@ -22,10 +22,10 @@ class MemberController extends Controller
                     ->select('tb_member.id','tb_pelanggan.nama','tb_member.status_member','tb_member.total_saldo', 'tb_member.total_kg')
                     ->selectRaw('(SELECT COUNT(*) FROM tb_member_detail WHERE tb_member_detail.id_member = tb_member.id) AS total_paket')
                     ->join('tb_pelanggan', 'tb_member.id_pelanggan', '=', 'tb_pelanggan.id_pelanggan')
-                    ->paginate(10);
+                    ->paginate(5);
 
         return view('kasir.member.member',compact('members')) 
-                                        ->with('i', (request()->input('page', 1) - 1) * 10);
+                                        ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     public function addMember(){

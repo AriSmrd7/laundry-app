@@ -170,4 +170,8 @@ class TransaksiController extends Controller
             return redirect()->route('transaksi.index')->with('error','Data gagal dihapus');    
         }
     }
+
+    public function printInvoice(){
+        return view('kasir.transaksi.print');
+    }
 }
