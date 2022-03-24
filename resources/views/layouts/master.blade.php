@@ -76,7 +76,6 @@
     <!-- endinject -->
     @stack('custom-scripts')
     <!-- Custom js for this page-->
-    <script src="{{ asset('assets') }}/js/shared/jquery.cookie.js" type="text/javascript"></script>
     <!-- End custom js for this page-->
     
   </body>
