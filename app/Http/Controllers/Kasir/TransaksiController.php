@@ -174,4 +174,5 @@ class TransaksiController extends Controller
     public function printInvoice(){
         return view('kasir.transaksi.print');
     }
+
 }
