@@ -12,11 +12,11 @@ use App\Models\Kasir\TransaksiKasir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Response;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Validator;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class OrderController extends Controller
 {
@@ -135,6 +135,7 @@ class OrderController extends Controller
             $allOrders[] =[
                 'no_invoice' => $listOrder->no_invoice,
                 'id_jasa' => $listOrder->id_jasa,
+                'id_pelanggan' => $listOrder->id_pelanggan,
                 'satuan' => $listOrder->satuan,
                 'harga' => $listOrder->harga,
                 'jumlah' => $listOrder->jumlah,

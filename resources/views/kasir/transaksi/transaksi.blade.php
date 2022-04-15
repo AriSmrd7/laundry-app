@@ -51,6 +51,7 @@
                           <td> {{ $row->status_cucian }} </td>
                           <td>
                             <a class="btn btn-xs btn-success" href="transaksi/invoice/{{$row->no_invoice}}">Detail</a>
+                            <a class="btn btn-xs btn-danger" href="transaksi/invoice/{{$row->no_invoice}}/delete">Hapus</a>
                           </td>
                         </tr>
                       @endforeach
